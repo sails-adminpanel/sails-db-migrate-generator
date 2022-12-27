@@ -1,0 +1,32 @@
+{
+  "name": "sails-generate-sails-db-migrate-generator",
+  "version": "1.0.0",
+  "description": "sails generate sails-db-migrate-generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'No further automated tests have been implemented for this generator yet.'",
+    "pretest": "npm run lint",
+    "lint": "node ./node_modules/eslint/bin/eslint sails-generate-sails-db-migrate-generator --max-warnings=0"
+  },
+  "keywords": [
+    "sails-db-migrate-generator",
+    "generator",
+    "sails",
+    "generate",
+    "plugin"
+  ],
+  "author": "a node.js/sails user",
+  "license": "MIT",
+  "dependencies": {
+    "@sailshq/lodash": "^3.10.3"
+  },
+  "devDependencies": {
+    "eslint": "3.19.0"
+  },
+  "repository": {"type":"git","url":"git://github.com//sails-generate-sails-db-migrate-generator.git"},
+  "sailsGenerator": {
+    "type": "sails-db-migrate-generator",
+    "behavior": "Implements or overrides `sails generate sails-db-migrate-generator`",
+    "sailsVersion": "^1.0.0"
+  }
+}
