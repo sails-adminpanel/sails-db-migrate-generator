@@ -1,0 +1,85 @@
+{
+  "home": {
+    "id": {
+      "type": "number",
+      "autoIncrement": true,
+      "primaryKey": true
+    },
+    "address": {
+      "type": "string"
+    },
+    "location": {
+      "type": "json",
+      "columnName": "geo_position"
+    },
+    "livingSpace": {
+      "type": "number",
+      "columnType": "float"
+    },
+
+    "pets": {
+      "collection": "pet",
+      "via": "home"
+    },
+
+    "tenants": {
+      "collection": "user",
+      "via": "home"
+    },
+
+    "owner": {
+      "model": "user"
+    }
+  },
+  "pet": {
+    "breed": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+
+    "owners": {
+      "collection": "user",
+      "via": "pets"
+    },
+
+    "home": {
+      "model": "home"
+    }
+  },
+  "user": {
+    "id": {
+      "type": "string",
+      "primaryKey": true
+    },
+    "firstName": {
+      "type": "string",
+      "required": true
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "age": {
+      "type": "number",
+      "autoIncrement": true
+    },
+    "email": {
+      "type": "string",
+      "unique": true
+    },
+
+    "pets": {
+      "collection": "pet",
+      "via": "owners"
+    },
+
+    "home": {
+      "model": "home"
+    }
+  }
+}

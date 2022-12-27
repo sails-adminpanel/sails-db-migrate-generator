@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "echo 'No further automated tests have been implemented for this generator yet.'",
+    "test": "TS_NODE_FILES=true mocha -r ts-node/register sails-db-migrate-generator/test/bootstrap.ts './test/{,/**}/*.test.ts'  --exit",
     "pretest": "npm run lint",
     "lint": "node ./node_modules/eslint/bin/eslint sails-db-migrate-generator --max-warnings=0"
   },
@@ -22,7 +22,13 @@
     "@sailshq/lodash": "^3.10.3"
   },
   "devDependencies": {
-    "eslint": "3.19.0"
+    "mocha": "^8.1.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7",
+    "eslint": "5.16.0",
+    "chai": "^4.3.4",
+    "@types/mocha": "^8.0.2",
+    "@types/chai": "^4.2.22"
   },
   "repository": {"type":"git","url":"git://github.com//sails-db-migrate-generator.git"},
   "sailsGenerator": {
