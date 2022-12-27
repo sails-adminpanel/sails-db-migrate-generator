@@ -1,5 +1,8 @@
 # sails-db-migrate-generator
 
+<span class="badge-npmversion"><a href="https://npmjs.org/package/sails-db-migrate-generator" title="View this project on NPM"><img src="https://img.shields.io/npm/v/sails-db-migrate-generator.svg" alt="NPM version" /></a></span>
+
+
 A `sails-db-migrate-generator` generator for use with the Sails command-line interface.
 
 
