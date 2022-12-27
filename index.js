@@ -8,7 +8,7 @@ var _ = require('@sailshq/lodash');
 
 
 /**
- * sails-generate-sails-db-migrate-generator
+ * sails-db-migrate-generator
  *
  * Usage:
  * `sails generate sails-db-migrate-generator`
