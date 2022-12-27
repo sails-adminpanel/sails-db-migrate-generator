@@ -4,6 +4,7 @@
   "description": "sails generate sails-db-migrate-generator",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo 'No further automated tests have been implemented for this generator yet.'",
     "pretest": "npm run lint",
     "lint": "node ./node_modules/eslint/bin/eslint sails-generate-sails-db-migrate-generator --max-warnings=0"
