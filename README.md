@@ -1,4 +1,4 @@
-# sails-generate-sails-db-migrate-generator
+# sails-db-migrate-generator
 
 A `sails-db-migrate-generator` generator for use with the Sails command-line interface.
 
@@ -30,7 +30,14 @@ Then merge the following into your `.sailsrc` file:
 ## Usage
 
 ```bash
-$ sails generate sails-db-migrate-generator 
+$ sails generate sails-db-migrate-generator migration-label --modelsDir="./models" --migrationsDir="./migrations"
+```
+- migrationsDir (optional), default: "./migrations"
+- modelsDir (optional), default: "./api/models"
+
+## Testing
+```bash
+$ npm run test
 ```
 
 
