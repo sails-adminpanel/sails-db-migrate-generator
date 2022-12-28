@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as ejs from "ejs";
-let templatesPath = `${process.cwd()}/lib/templates`;
-let migrationsPath = `${process.cwd()}/migrations`; // process.env and in process.argv
+let migrationsPath = process.env.MIGRATIONS_PATH || `${process.cwd()}/migrations`;
 let optionsWhiteList = ['type', 'length', 'primaryKey', 'autoIncrement', 'notNull', 'unique', 'defaultValue', 'foreignKey'];
 
 export default class MigrationBuilder {
@@ -102,14 +101,18 @@ export default class MigrationBuilder {
     let date = new Date();
     let fileName = `${date.getFullYear()}${pad2(date.getMonth() + 1)}${pad2(date.getDate())}${pad2(date.getHours())}${pad2(date.getMinutes())}${pad2(date.getSeconds())}-migrations-generator-processed`;
 
-    ejs.renderFile(`${templatesPath}/sql.ejs.js`, {migration: this.migrationsBuild}, async function (err, data) {
+    ejs.renderFile(__dirname + "./../templates/sql.ejs.js", {migration: this.migrationsBuild}, function (err, data) {
       if (err) {
-        sails.log.error(`Could not render migrations build`, err);
+        console.error(`Could not render migrations build`, err);
       } else {
         // console.log(data);
         fs.writeFileSync(`${migrationsPath}/${fileName}.js`, data);
       }
     })
+  }
+
+  public getMigrationsBuild() {
+    return this.migrationsBuild;
   }
 }
 

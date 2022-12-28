@@ -5,7 +5,7 @@ const DB = require("./lib/detector/sql").default;
 const MigrationBuilder = require('./lib/builder/sql').default;
 
 // build models tree
-let modelsPath = __dirname + "/api/models"; // process.env and in process.argv
+let modelsPath = process.env.MODELS_PATH || `${process.cwd()}/api/models`; // process.env and in process.argv
 let modelsDir = fs.readdirSync(modelsPath);
 
 let modelsTree = {}
@@ -32,7 +32,7 @@ for (let modelFile of modelsDir) {
 console.log(modelsTree)
 
 // build migrations schema
-let migrationsPath = `${process.cwd()}/migrations`; // process.env and in process.argv
+let migrationsPath = process.env.MIGRATIONS_PATH || `${process.cwd()}/migrations`;
 let migrationsDir = fs.readdirSync(migrationsPath);
 
 let db = new DB();
@@ -88,7 +88,4 @@ for (let model in migrationsSchema) {
 }
 
 migrationBuilder.renderFile()
-
-// !TODO ->
-// как правильно падать с ошибкой?)
 

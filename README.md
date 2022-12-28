@@ -33,10 +33,10 @@ Then merge the following into your `.sailsrc` file:
 ## Usage
 
 ```bash
-$ sails generate sails-db-migrate-generator migration-label --modelsDir="./models" --migrationsDir="./migrations"
+$ sails generate sails-db-migrate-generator migration-label --modelsPath="./models" --migrationsPath="./migrations"
 ```
-- migrationsDir (optional), default: "./migrations"
-- modelsDir (optional), default: "./api/models"
+- migrationsPath (optional), default: "./migrations"
+- modelsPath (optional), default: "./api/models"
 
 ## Testing
 ```bash

@@ -1,12 +1,11 @@
 {
   "name": "sails-db-migrate-generator",
   "version": "1.0.0-alpha-1",
-  "description": "sails generate sails-db-migrate-generator",
+  "description": "sails generator to generate migrations",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "TS_NODE_FILES=true mocha -r ts-node/register sails-db-migrate-generator/test/bootstrap.ts './test/{,/**}/*.test.ts'  --exit",
-    "pretest": "npm run lint",
+    "test": "mocha -r ts-node/register test/bootstrap.ts './test/{,!(fixture)/**}/*.test.ts' --exit",
     "lint": "node ./node_modules/eslint/bin/eslint sails-db-migrate-generator --max-warnings=0"
   },
   "keywords": [
