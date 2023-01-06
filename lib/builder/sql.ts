@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as ejs from "ejs";
+import * as path from "path";
 let optionsWhiteList = ['type', 'length', 'primaryKey', 'autoIncrement', 'notNull', 'unique', 'defaultValue', 'foreignKey'];
 
 export default class MigrationBuilder {
@@ -102,7 +103,7 @@ export default class MigrationBuilder {
     let date = new Date();
     let fileName = `${date.getFullYear()}${pad2(date.getMonth() + 1)}${pad2(date.getDate())}${pad2(date.getHours())}${pad2(date.getMinutes())}${pad2(date.getSeconds())}-${process.env.MIGRATION_NAME}`;
 
-    ejs.renderFile(__dirname + "./../templates/sql.ejs.js", {migration: this.migrationsBuild}, function (err, data) {
+    ejs.renderFile(path.resolve(__dirname, "./../templates/sql.ejs.js"), {migration: this.migrationsBuild}, function (err, data) {
       if (err) {
         console.error(`Could not render migrations build`, err);
       } else {
