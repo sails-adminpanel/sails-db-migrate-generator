@@ -1,4 +1,5 @@
 import {expect} from "chai";
+import * as path from "path";
 let modelsTree = require("../datamocks/modelsTree.json");
 import * as fs from "fs";
 import * as process from "process";
@@ -9,7 +10,7 @@ let migrationsSchema = {
     address: { type: 'string' }
   }
 }
-process.env.MIGRATIONS_PATH = __dirname + "../.tmp/migrations";
+process.env.MIGRATIONS_PATH = path.resolve(__dirname, "../.tmp/migrations");
 process.env.MIGRATION_NAME = "test"
 import MigrationBuilder from "../../lib/builder/sql";
 

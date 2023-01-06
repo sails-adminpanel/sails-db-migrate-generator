@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 describe('SQL detector test', function () {
   it('check detector proper work', async function() {
-    let migrationsPath = __dirname + "../datamocks/migrations"; // process.env and in process.argv
+    let migrationsPath = path.resolve(__dirname, "../datamocks/migrations"); // process.env and in process.argv
     let migrationsDir = fs.readdirSync(migrationsPath);
 
     let db = new DB();
