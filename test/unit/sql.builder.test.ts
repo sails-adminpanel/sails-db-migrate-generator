@@ -10,13 +10,13 @@ let migrationsSchema = {
     address: { type: 'string' }
   }
 }
-process.env.MIGRATIONS_PATH = path.resolve(__dirname, "../.tmp/migrations");
+process.env.MIGRATIONS_PATH = path.resolve(__dirname, "../temp/migrations");
 process.env.MIGRATION_NAME = "test"
 import MigrationBuilder from "../../lib/builder/sql";
 
 describe('SQL builder test', function () {
   it('check builder proper work', async function() {
-    // clear .tmp/migrations
+    // clear temp/migrations
     let migrationsDir = fs.readdirSync(process.env.MIGRATIONS_PATH);
     for (let migrationFile of migrationsDir) {
       fs.unlinkSync(`${process.env.MIGRATIONS_PATH}/${migrationFile}`);
