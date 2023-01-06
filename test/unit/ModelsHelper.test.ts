@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {ModelsHelper} from "../../lib/helper/ModelsHelper";
-process.env.MODELS_PATH = __dirname + "./../datamocks/models";
+process.env.MODELS_PATH = __dirname + "../datamocks/models";
 let modelsTree = require("../datamocks/modelsTree.json");
 
 describe('Models helper test', function () {

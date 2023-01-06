@@ -9,7 +9,7 @@ let migrationsSchema = {
     address: { type: 'string' }
   }
 }
-process.env.MIGRATIONS_PATH = __dirname + "./../.tmp/migrations";
+process.env.MIGRATIONS_PATH = __dirname + "../.tmp/migrations";
 process.env.MIGRATION_NAME = "test"
 import MigrationBuilder from "../../lib/builder/sql";
 
