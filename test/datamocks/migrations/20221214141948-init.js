@@ -21,6 +21,12 @@ exports.up = function(db, callback) {
     },
     ifNotExists: true
   }, callback);
+  db.createTable('pet', {
+    columns: {
+      id: { type: 'bigint', primaryKey: true, autoIncrement: true }
+    },
+    ifNotExists: true
+  }, callback);
 };
 
 exports.down = function(db) {

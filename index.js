@@ -5,6 +5,8 @@
 var util = require('util');
 var path = require('path');
 var _ = require('@sailshq/lodash');
+let fs = require("fs");
+let genDBMigrates = require("./gen-db-migrates").default;
 
 
 /**
@@ -31,30 +33,34 @@ module.exports = {
    */
 
   before: function (scope, done) {
+    if (!process.env.MIGRATION_NAME) {
+      process.env.MIGRATION_NAME = scope.args[0] ? scope.args[0] : "migrations-generator-processed";
+    }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // // scope.args are the raw command line arguments.
-    // //
-    // // e.g. if someone runs:
-    // // $ sails generate sails-db-migrate-generator user find create update
-    // // then `scope.args` would be `['user', 'find', 'create', 'update']`
-    // if (_.isUndefined(scope.args[0])) {
-    //   return done(new Error('Please provide a name for this sails-db-migrate-generator.'));
-    // }
-    // if (!_.isString(scope.args[0])) {
-    //   return done(new Error('Expected a string for `scope.args[0]`, but instead got: '+util.inspect(scope.args[0],{depth: null})));
-    // }
-    //
-    // // Provide defaults for the scope.
-    // _.defaults(scope, {
-    //   createdAt: new Date()
-    // });
-    //
-    // // Decide the output filename for use in targets below:
-    // scope.filename = scope.args[0];
-    //
-    // // Add other stuff to the scope for use in our templates:
-    // scope.whatIsThis = 'an example file created at '+scope.createdAt;
+    for (let arg of process.argv) {
+      if (!process.env.MODELS_PATH) {
+        if (arg.startsWith("--modelsPath")) {
+          process.env.MODELS_PATH = arg.split("=")[1];
+        } else {
+          process.env.MODELS_PATH = `${process.cwd()}/api/models`;
+        }
+      }
+      if (!process.env.MIGRATIONS_PATH) {
+        if (arg.startsWith("--migrationsPath")) {
+          process.env.MIGRATIONS_PATH = arg.split("=")[1];
+        } else {
+          process.env.MIGRATIONS_PATH = `${process.cwd()}/migrations`;
+        }
+      }
+    }
+
+    if (!fs.existsSync(process.env.MODELS_PATH) || !fs.existsSync(process.env.MIGRATIONS_PATH)) {
+      console.log("Models and migrations paths should exist")
+      process.exit(1);
+    }
+
+    genDBMigrates();
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // When finished, trigger the `done` callback to begin generating

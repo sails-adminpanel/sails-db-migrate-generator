@@ -12,23 +12,22 @@ describe('SQL detector test', function () {
       if (path.extname(migrationFile) === ".js") {
         try {
           // migrations filename should start from valid date and separator '-'
-          // @ts-ignore
-          if (isNaN(migrationFile.split('-')[0]) || migrationFile.split('-')[0].length !== 14) {
+          if (isNaN(+migrationFile.split('-')[0]) || migrationFile.split('-')[0].length !== 14) {
             throw `${migrationFile} has invalid name`
           }
           let migration = require(`${migrationsPath}/${migrationFile}`);
           migration.up(db);
         } catch (e) {
-          throw `Migration error: ${e}`
+          throw `Migration error > ${e}`
         }
       }
     }
 
     let migrationsSchema = db.getWaterlineSchema()
     expect(migrationsSchema).to.deep.equal({
-      home: {
+      house: {
         id: { type: 'number', primaryKey: true, autoIncrement: true },
-        address: { type: 'string' }
+        address: { type: 'json' }
       }
     });
   });

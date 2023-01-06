@@ -9,7 +9,8 @@ let migrationsSchema = {
     address: { type: 'string' }
   }
 }
-process.env.MIGRATIONS_PATH = __dirname + "./../.tmp/migrations"
+process.env.MIGRATIONS_PATH = __dirname + "./../.tmp/migrations";
+process.env.MIGRATION_NAME = "test"
 import MigrationBuilder from "../../lib/builder/sql";
 
 describe('SQL builder test', function () {
@@ -56,8 +57,7 @@ describe('SQL builder test', function () {
     migrationsDir = fs.readdirSync(process.env.MIGRATIONS_PATH);
     // migrations filename should start from valid date and separator '-'
     let migrationProperName = true;
-    // @ts-ignore
-    if (isNaN(migrationsDir[0].split('-')[0]) || migrationsDir[0].split('-')[0].length !== 14) {
+    if (isNaN(+migrationsDir[0].split('-')[0]) || migrationsDir[0].split('-')[0].length !== 14) {
       migrationProperName = false
     }
 

@@ -15,8 +15,18 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db, callback) {
-  db.addColumn('home', 'address', {
+  db.addColumn('home', 'name', {
     type: 'string'
+  }, callback);
+  db.addColumn('home', 'number', {
+    type: 'int'
+  }, callback);
+  db.dropTable('pet', callback);
+  db.renameTable('home', 'house', callback);
+  db.removeColumn('house', 'number', callback);
+  db.renameColumn('house', 'name', 'address', callback);
+  db.changeColumn('house', 'address', {
+    type: 'json'
   }, callback);
 };
 
