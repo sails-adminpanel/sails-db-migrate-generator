@@ -10,17 +10,18 @@ let migrationsSchema = {
     address: { type: 'string' }
   }
 }
-process.env.MIGRATIONS_PATH = path.resolve(__dirname, "../temp/migrations");
 process.env.MIGRATION_NAME = "test"
+process.env.MIGRATIONS_PATH = path.resolve(__dirname, "../.tmp/migrations");
 import MigrationBuilder from "../../lib/builder/sql";
 
 describe('SQL builder test', function () {
   it('check builder proper work', async function() {
-    // clear temp/migrations
-    let migrationsDir = fs.readdirSync(process.env.MIGRATIONS_PATH);
-    for (let migrationFile of migrationsDir) {
-      fs.unlinkSync(`${process.env.MIGRATIONS_PATH}/${migrationFile}`);
+    // clear .tmp/migrations
+    if (fs.existsSync(path.resolve(__dirname, "../.tmp"))) {
+      fs.rmSync(path.resolve(__dirname, "../.tmp"), { recursive: true, force: true });
     }
+    fs.mkdirSync(path.resolve(__dirname, "../.tmp"));
+    fs.mkdirSync(path.resolve(__dirname, "../.tmp/migrations"));
 
     let migrationBuilder = new MigrationBuilder(modelsPrimaryKeysTypes);
     for (let model in modelsTree) {
@@ -55,7 +56,7 @@ describe('SQL builder test', function () {
 
     migrationBuilder.renderFile()
 
-    migrationsDir = fs.readdirSync(process.env.MIGRATIONS_PATH);
+    let migrationsDir = fs.readdirSync(path.resolve(__dirname, "../.tmp/migrations"));
     // migrations filename should start from valid date and separator '-'
     let migrationProperName = true;
     if (isNaN(+migrationsDir[0].split('-')[0]) || migrationsDir[0].split('-')[0].length !== 14) {
