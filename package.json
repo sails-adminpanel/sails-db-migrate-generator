@@ -27,7 +27,8 @@
     "eslint": "5.16.0",
     "chai": "^4.3.4",
     "@types/mocha": "^8.0.2",
-    "@types/chai": "^4.2.22"
+    "@types/chai": "^4.2.22",
+    "@types/node": "^14.17.11"
   },
   "repository": {"type":"git","url":"git://github.com//sails-db-migrate-generator.git"},
   "sailsGenerator": {

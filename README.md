@@ -5,6 +5,10 @@
 
 A `sails-db-migrate-generator` generator for use with the Sails command-line interface.
 
+Easily create missing db-migrate migrations by one command.
+This module checks existing migration files and your model tree, and then
+automatically creates missing migrations in one file.
+
 
 ## Installation
 
@@ -17,7 +21,7 @@ Then merge the following into your `.sailsrc` file:
 ```json
 {
   "modules": {
-    "sails-db-migrate-generator": "sails-db-migrate-generator"
+    "migration": "sails-db-migrate-generator"
   }
 }
 ```
@@ -33,7 +37,7 @@ Then merge the following into your `.sailsrc` file:
 ## Usage
 
 ```bash
-$ sails generate sails-db-migrate-generator migration-label --modelsPath="./models" --migrationsPath="./migrations"
+$ sails generate migration migration-label --modelsPath="./models" --migrationsPath="./migrations"
 ```
 - migration-label (optional), default: "migrations-generator-processed"
 - migrationsPath (optional), default: "./migrations"
