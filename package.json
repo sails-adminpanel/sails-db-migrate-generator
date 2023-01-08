@@ -8,6 +8,9 @@
     "test": "mocha -r ts-node/register test/bootstrap.ts './test/{,!(fixture)/**}/*.test.ts' --exit",
     "lint": "node ./node_modules/eslint/bin/eslint sails-db-migrate-generator --max-warnings=0"
   },
+  "bin": {
+    "sails-migrate": "./bin.js"
+  },
   "keywords": [
     "sails-db-migrate-generator",
     "generator",

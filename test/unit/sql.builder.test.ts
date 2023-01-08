@@ -1,5 +1,6 @@
 import {expect} from "chai";
 import * as path from "path";
+let DBMigrate = require('db-migrate');
 let modelsTree = require("../datamocks/modelsTree.json");
 import * as fs from "fs";
 import * as process from "process";
@@ -62,6 +63,9 @@ describe('SQL builder test', function () {
     if (isNaN(+migrationsDir[0].split('-')[0]) || migrationsDir[0].split('-')[0].length !== 14) {
       migrationProperName = false
     }
+
+    // getting an instance of dbmigrate
+    let dbmigrate = DBMigrate.getInstance(true);
 
     expect(migrationProperName).to.be.true;
     expect(migrationBuilder.getMigrationsBuild()).to.equal("db.addColumn('home', 'geo_position', {\"type\":\"json\"});\n" +
