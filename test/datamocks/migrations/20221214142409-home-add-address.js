@@ -22,12 +22,6 @@ exports.up = function(db, callback) {
     type: 'int'
   }, callback);
   db.dropTable('pet', callback);
-  db.renameTable('home', 'house', callback);
-  db.removeColumn('house', 'number', callback);
-  db.renameColumn('house', 'name', 'address', callback);
-  db.changeColumn('house', 'address', {
-    type: 'json'
-  }, callback);
 };
 
 exports.down = function(db) {

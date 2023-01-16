@@ -1,55 +1,58 @@
+import Base from "db-migrate-base";
+import {IMSchema} from "../interfaces/types";
+
 export default class DB {
-  private waterlineSchema;
+  private readonly intermediateMigrationSchema: IMSchema;
 
   constructor() {
-    this.waterlineSchema = {}
+    this.intermediateMigrationSchema = {}
   }
 
-  public createTable(tableName, columnSpec, callback) {
+  public createTable(tableName: string, columnSpec: Base.CreateTableOptions): void {
     // !TODO process other parameters in columnSpec
-    this.waterlineSchema[tableName] = {};
+    this.intermediateMigrationSchema[tableName] = {};
     let columns = columnSpec.columns ? columnSpec.columns : columnSpec;
     for (let key in columns) {
-      this.waterlineSchema[tableName][key] = this.processColumn(columns[key]);
+      this.intermediateMigrationSchema[tableName][key] = this.processColumn(columns[key]);
     }
   }
 
-  public addColumn(tableName, columnName, columnSpec, callback) {
-    this.waterlineSchema[tableName][columnName] = this.processColumn(columnSpec);
+  public addColumn(tableName: string, columnName: string, columnSpec: Base.ColumnSpec): void {
+    this.intermediateMigrationSchema[tableName][columnName] = this.processColumn(columnSpec);
   }
 
-  public dropTable(tableName, options, callback) {
+  public dropTable(tableName: string, options?): void {
     // !TODO how to process this options ?
     // options will be an array, to process this case we need usage example
     // what means [options,] here: dropTable(tableName, [options,] callback) ?
-    delete this.waterlineSchema[tableName];
+    delete this.intermediateMigrationSchema[tableName];
   }
 
-  public renameTable(tableName, newTableName, callback) {
-    this.waterlineSchema[newTableName] = this.waterlineSchema[tableName];
-    delete this.waterlineSchema[tableName];
+  public renameTable(tableName: string, newTableName: string): void {
+    this.intermediateMigrationSchema[newTableName] = this.intermediateMigrationSchema[tableName];
+    delete this.intermediateMigrationSchema[tableName];
   }
 
-  public removeColumn(tableName, columnName, callback) {
-    delete this.waterlineSchema[tableName][columnName];
+  public removeColumn(tableName: string, columnName: string): void {
+    delete this.intermediateMigrationSchema[tableName][columnName];
   }
 
-  public renameColumn(tableName, oldColumnName, newColumnName, callback) {
-    this.waterlineSchema[tableName][newColumnName] = this.waterlineSchema[tableName][oldColumnName];
-    delete this.waterlineSchema[tableName][oldColumnName];
+  public renameColumn(tableName: string, oldColumnName: string, newColumnName: string): void {
+    this.intermediateMigrationSchema[tableName][newColumnName] = this.intermediateMigrationSchema[tableName][oldColumnName];
+    delete this.intermediateMigrationSchema[tableName][oldColumnName];
   }
 
-  public changeColumn(tableName, columnName, columnSpec, callback) {
-    this.waterlineSchema[tableName][columnName] = this.processColumn(columnSpec);
+  public changeColumn(tableName: string, columnName: string, columnSpec: Base.ColumnSpec) {
+    this.intermediateMigrationSchema[tableName][columnName] = this.processColumn(columnSpec);
   }
 
   // !TODO add all other methods
 
-  public getWaterlineSchema() {
-    return this.waterlineSchema;
+  public getWaterlineSchema(): IMSchema {
+    return this.intermediateMigrationSchema;
   }
 
-  public processColumn(column) {
+  public processColumn(column: Base.ColumnSpec): Base.ColumnSpec {
     if (column.type === 'char' || column.type === 'text' || column.type === 'date' || column.type === 'datetime' ||
       column.type === 'time' || column.type === 'blob' || column.type === 'binary') {
       column.type = 'string';

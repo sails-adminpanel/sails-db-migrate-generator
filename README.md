@@ -9,6 +9,8 @@ Easily create missing db-migrate migrations by one command.
 This module checks existing migration files and your model tree, and then
 automatically creates missing migrations in one file.
 
+⚠️The result should be checked by a human being ⚠️
+
 
 ## Installation
 

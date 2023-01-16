@@ -17,13 +17,13 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db, callback) {
   db.createTable('home', {
     columns: {
-      id: { type: 'bigint', primaryKey: true, autoIncrement: true }
+      id: { type: 'int', primaryKey: true, autoIncrement: true }
     },
     ifNotExists: true
   }, callback);
   db.createTable('pet', {
     columns: {
-      id: { type: 'bigint', primaryKey: true, autoIncrement: true }
+      id: { type: 'int', primaryKey: true, autoIncrement: true }
     },
     ifNotExists: true
   }, callback);

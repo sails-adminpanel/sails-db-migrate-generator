@@ -1,8 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
+import {ModelsTree} from "../interfaces/types";
 
 export class ModelsHelper {
-  public static buildTree() {
+  public static buildTree(): {modelsTree: ModelsTree, modelsPrimaryKeysTypes: {[key:string]: string}} {
     let modelsPath = process.env.MODELS_PATH;
     let modelsDir = fs.readdirSync(modelsPath);
 

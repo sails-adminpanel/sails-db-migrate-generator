@@ -22,19 +22,25 @@
   "license": "MIT",
   "dependencies": {
     "@sailshq/lodash": "^3.10.3",
+    "@types/db-migrate-base": "^0.0.10",
     "ejs": "^3.1.8"
   },
   "devDependencies": {
-    "mocha": "^8.1.1",
-    "ts-node": "^8.10.2",
-    "typescript": "^3.9.7",
-    "eslint": "5.16.0",
-    "chai": "^4.3.4",
-    "@types/mocha": "^8.0.2",
     "@types/chai": "^4.2.22",
-    "@types/node": "^14.17.11"
+    "@types/mocha": "^8.0.2",
+    "@types/node": "^14.17.11",
+    "chai": "^4.3.4",
+    "eslint": "5.16.0",
+    "mocha": "^8.1.1",
+    "sqlite3": "^5.1.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^4.9.4",
+    "db-migrate-sqlite3": "git+https://github.com/DeanMauro/sqlite.git"
   },
-  "repository": {"type":"git","url":"git://github.com//sails-db-migrate-generator.git"},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com//sails-db-migrate-generator.git"
+  },
   "sailsGenerator": {
     "type": "sails-db-migrate-generator",
     "behavior": "Implements or overrides `sails generate sails-db-migrate-generator`",

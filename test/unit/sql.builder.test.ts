@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import * as path from "path";
-let DBMigrate = require('db-migrate');
+import * as DBMigrate from 'db-migrate';
 let modelsTree = require("../datamocks/modelsTree.json");
 import * as fs from "fs";
 import * as process from "process";
@@ -23,8 +23,12 @@ describe('SQL builder test', function () {
     }
     fs.mkdirSync(path.resolve(__dirname, "../.tmp"));
     fs.mkdirSync(path.resolve(__dirname, "../.tmp/migrations"));
+    fs.copyFileSync(path.resolve(__dirname, "../datamocks/migrations/20221214141948-init.js"),
+      path.resolve(__dirname, "../.tmp/migrations/20221214141948-init.js"));
+    fs.copyFileSync(path.resolve(__dirname, "../datamocks/migrations/20221214142409-home-add-address.js"),
+      path.resolve(__dirname, "../.tmp/migrations/20221214142409-home-add-address.js"));
 
-    let migrationBuilder = new MigrationBuilder(modelsPrimaryKeysTypes);
+    let migrationBuilder = new MigrationBuilder(modelsPrimaryKeysTypes, Object.keys(modelsTree));
     for (let model in modelsTree) {
       if (model in migrationsSchema) {
         for (let attribute in modelsTree[model]) {
@@ -60,37 +64,53 @@ describe('SQL builder test', function () {
     let migrationsDir = fs.readdirSync(path.resolve(__dirname, "../.tmp/migrations"));
     // migrations filename should start from valid date and separator '-'
     let migrationProperName = true;
-    if (isNaN(+migrationsDir[0].split('-')[0]) || migrationsDir[0].split('-')[0].length !== 14) {
-      migrationProperName = false
+    for (let i = 0; i < migrationsDir.length; i++) {
+      if (isNaN(+migrationsDir[i].split('-')[0]) || migrationsDir[i].split('-')[0].length !== 14) {
+        migrationProperName = false
+      }
     }
 
     // getting an instance of dbmigrate
-    let dbmigrate = DBMigrate.getInstance(true);
+    let dbmigrate = DBMigrate.getInstance(true, {
+      cwd: path.resolve(__dirname, "../.tmp"),
+      config: path.resolve(__dirname, "../datamocks/database.json")
+    });
+
+    dbmigrate.internals.verbose = true;
+
+    try {
+      //execute any of the API methods
+      dbmigrate.reset()
+        .then( () => dbmigrate.up() );
+    } catch (e) {
+      throw e
+    }
+
+    console.log(dbmigrate)
+
+    // !TODO сделать типизацию чтоб сработал строгий режим (заимпортить типизацию с https://github.com/DefinitelyTyped/DefinitelyTyped)
 
     expect(migrationProperName).to.be.true;
     expect(migrationBuilder.getMigrationsBuild()).to.equal("db.addColumn('home', 'geo_position', {\"type\":\"json\"});\n" +
-      "db.addColumn('home', 'livingSpace', {\"type\":\"float\"});\n" +
+      "db.addColumn('home', 'livingSpace', {\"type\":\"real\"});\n" +
       "db.createTable('home_pets__pet_home', {\n" +
-      "    columns: {\"id\":{\"type\":\"int\",\"notNull\":true},\"home_pets\":{\"type\":\"string\"},\"pet_home\":{\"type\":\"string\"}},\n" +
+      "    columns: {\"id\":{\"type\":\"int\",\"notNull\":true,\"autoIncrement\":true},\"home_pets\":{\"type\":\"string\"},\"pet_home\":{\"type\":\"string\"}},\n" +
       "    ifNotExists: true\n" +
       "  });\n" +
-      "db.addColumn('home', 'pets', {});\n" +
       "db.createTable('home_tenants__user_home', {\n" +
-      "    columns: {\"id\":{\"type\":\"int\",\"notNull\":true},\"home_tenants\":{\"type\":\"string\"},\"user_home\":{\"type\":\"string\"}},\n" +
+      "    columns: {\"id\":{\"type\":\"int\",\"notNull\":true,\"autoIncrement\":true},\"home_tenants\":{\"type\":\"string\"},\"user_home\":{\"type\":\"string\"}},\n" +
       "    ifNotExists: true\n" +
       "  });\n" +
-      "db.addColumn('home', 'tenants', {});\n" +
-      "db.addColumn('home', 'owner', {});\n" +
       "db.createTable('pet_owners__user_pets', {\n" +
-      "    columns: {\"id\":{\"type\":\"int\",\"notNull\":true},\"pet_owners\":{\"type\":\"string\"},\"user_pets\":{\"type\":\"string\"}},\n" +
+      "    columns: {\"id\":{\"type\":\"int\",\"notNull\":true,\"autoIncrement\":true},\"pet_owners\":{\"type\":\"string\"},\"user_pets\":{\"type\":\"string\"}},\n" +
       "    ifNotExists: true\n" +
       "  });\n" +
       "db.createTable('pet', {\n" +
-      "    columns: {\"breed\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"owners\":{},\"home\":{}},\n" +
+      "    columns: {\"breed\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"}},\n" +
       "    ifNotExists: true\n" +
       "  });\n" +
       "db.createTable('user', {\n" +
-      "    columns: {\"id\":{\"type\":\"string\",\"primaryKey\":true},\"firstName\":{\"type\":\"string\"},\"lastName\":{\"type\":\"string\"},\"age\":{\"type\":\"real\",\"autoIncrement\":true},\"email\":{\"type\":\"string\",\"unique\":true},\"pets\":{},\"home\":{}},\n" +
+      "    columns: {\"id\":{\"type\":\"string\",\"primaryKey\":true},\"firstName\":{\"type\":\"string\"},\"lastName\":{\"type\":\"string\"},\"age\":{\"type\":\"real\",\"autoIncrement\":true},\"email\":{\"type\":\"string\",\"unique\":true}},\n" +
       "    ifNotExists: true\n" +
       "  });\n")
   })

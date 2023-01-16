@@ -6,9 +6,10 @@
     "declaration": true,
     "removeComments": false,
     "skipLibCheck": true,
+    "esModuleInterop": true,
     "lib": [
       "dom"
-    ],
+    ]
   },
   "exclude": [
     "node_modules"

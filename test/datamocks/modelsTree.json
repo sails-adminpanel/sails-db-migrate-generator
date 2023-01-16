@@ -14,7 +14,7 @@
     },
     "livingSpace": {
       "type": "number",
-      "columnType": "float"
+      "columnType": "real"
     },
 
     "pets": {

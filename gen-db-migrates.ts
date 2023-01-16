@@ -4,7 +4,7 @@ import DB from "./lib/detector/sql";
 import MigrationBuilder from './lib/builder/sql';
 import {ModelsHelper} from "./lib/helper/ModelsHelper";
 
-export default function genDBMigrates() {
+export default function genDBMigrates(): void {
   // build models tree
   let modelsInfo = ModelsHelper.buildTree();
   let modelsTree = modelsInfo.modelsTree;
@@ -31,25 +31,29 @@ export default function genDBMigrates() {
     }
   }
   let migrationsSchema = db.getWaterlineSchema()
-  console.log(migrationsSchema)
 
   // compare models tree and migrations schema and create new migrations
-  let migrationBuilder = new MigrationBuilder(modelsPrimaryKeysTypes);
+  let migrationBuilder = new MigrationBuilder(modelsPrimaryKeysTypes, Object.keys(modelsTree));
   for (let model in modelsTree) {
-    if (model in migrationsSchema) {
-      for (let attribute in modelsTree[model]) {
-        if (attribute in migrationsSchema[model]) {
-          // check type
-          if (modelsTree[model][attribute].type !== migrationsSchema[model][attribute].type) {
-            migrationBuilder.changeColumn(model, attribute, modelsTree[model][attribute]);
+    try {
+      if (model in migrationsSchema) {
+        for (let attribute in modelsTree[model]) {
+          if (attribute in migrationsSchema[model]) {
+            // check type
+            if (modelsTree[model][attribute].type !== migrationsSchema[model][attribute].type) {
+              migrationBuilder.changeColumn(model, attribute, modelsTree[model][attribute]);
+            }
+            // !TODO check other options
+          } else {
+            migrationBuilder.addColumn(model, attribute, modelsTree[model][attribute]);
           }
-          // !TODO check other options
-        } else {
-          migrationBuilder.addColumn(model, attribute, modelsTree[model][attribute]);
         }
+      } else {
+        migrationBuilder.createTable(model, modelsTree[model]);
       }
-    } else {
-      migrationBuilder.createTable(model, modelsTree[model]);
+    } catch (e) {
+      console.log(e);
+      process.exit(1);
     }
   }
 

@@ -15,7 +15,7 @@ module.exports = {
     },
     livingSpace: {
       type: 'number',
-      columnType: 'float'
+      columnType: 'real'
     },
 
     // Add a reference to Pet

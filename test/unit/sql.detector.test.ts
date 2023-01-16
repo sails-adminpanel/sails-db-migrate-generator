@@ -25,9 +25,9 @@ describe('SQL detector test', function () {
 
     let migrationsSchema = db.getWaterlineSchema()
     expect(migrationsSchema).to.deep.equal({
-      house: {
+      home: {
         id: { type: 'number', primaryKey: true, autoIncrement: true },
-        address: { type: 'json' }
+        address: { type: 'string' }
       }
     });
   });
