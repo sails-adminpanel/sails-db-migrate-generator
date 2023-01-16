@@ -6,10 +6,10 @@
   "keywords": [],
   "dependencies": {
     "include-all": "^1.0.8",
-    "rc": "^1.0.1",
+    "rc": "^1.2.8",
     "request": "^2.88.2",
     "sails": "^1.5.3",
-    "sails-hook-orm": "^4.0.1",
+    "sails-hook-orm": "^4.0.2",
     "sails-memory": "^0.10.7"
   },
   "scripts": {
