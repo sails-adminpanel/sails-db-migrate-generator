@@ -1,1 +1,1 @@
-export default function genDBMigrates(): void;
+export default function genDBMigrates(): Promise<void>;

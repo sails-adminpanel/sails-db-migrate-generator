@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 let fs = require("fs");
+let cwd = process.cwd();
 let genDBMigrates = require("./gen-db-migrates").default;
+process.chdir(cwd);
 
 for (let i = 0; i < process.argv.length; i++) {
   if (!process.env.MIGRATION_NAME) {
@@ -36,4 +38,4 @@ if (!fs.existsSync(process.env.MODELS_PATH)) {
   process.exit(1);
 }
 
-genDBMigrates();
+await genDBMigrates();

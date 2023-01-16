@@ -32,7 +32,7 @@ module.exports = {
    * @param  {Function} done
    */
 
-  before: function (scope, done) {
+  before: async function (scope, done) {
     if (!process.env.MIGRATION_NAME) {
       process.env.MIGRATION_NAME = scope.args[0] ? scope.args[0] : "migrations-generator-processed";
     }
@@ -59,7 +59,7 @@ module.exports = {
       process.exit(1);
     }
 
-    genDBMigrates();
+    await genDBMigrates();
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

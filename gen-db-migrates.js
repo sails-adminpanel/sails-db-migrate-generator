@@ -33,12 +33,18 @@ const sql_2 = __importDefault(require("./lib/builder/sql"));
 const ModelsHelper_1 = require("./lib/helper/ModelsHelper");
 // preparation to get Sails environment
 let Sails = require("./fixture/node_modules/sails").Sails;
-require("./fixture/app-export");
-Sails().lift({}, function (err, _sails) {
-    // @ts-ignore
-    global.sails = _sails;
-});
-function genDBMigrates() {
+function runSails() {
+    return new Promise((resolve, reject) => {
+        require("./fixture/app-export");
+        Sails().lift({}, function (err, _sails) {
+            // @ts-ignore
+            global.sails = _sails;
+            resolve(_sails);
+        });
+    });
+}
+async function genDBMigrates() {
+    await runSails();
     // build models tree
     let modelsInfo = ModelsHelper_1.ModelsHelper.buildTree();
     let modelsTree = modelsInfo.modelsTree;

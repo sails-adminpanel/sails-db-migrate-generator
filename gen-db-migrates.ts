@@ -6,13 +6,20 @@ import {ModelsHelper} from "./lib/helper/ModelsHelper";
 
 // preparation to get Sails environment
 let Sails = require("./fixture/node_modules/sails").Sails;
-require("./fixture/app-export");
-Sails().lift({}, function (err: any, _sails: any) {
-  // @ts-ignore
-  global.sails = _sails;
-});
+function runSails() {
+  return new Promise((resolve, reject) => {
+    require("./fixture/app-export");
+    Sails().lift({}, function (err: any, _sails: any) {
+      // @ts-ignore
+      global.sails = _sails;
+      resolve(_sails);
+    });
+  })
+}
 
-export default function genDBMigrates(): void {
+export default async function genDBMigrates(): Promise<void> {
+  await runSails();
+
   // build models tree
   let modelsInfo = ModelsHelper.buildTree();
   let modelsTree = modelsInfo.modelsTree;
