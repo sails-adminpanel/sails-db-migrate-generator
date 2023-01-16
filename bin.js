@@ -1,5 +1,6 @@
+#!/usr/bin/env node
 let fs = require("fs");
-let genDBMigrates = require("./gen-db-migrates");
+let genDBMigrates = require("./gen-db-migrates").default;
 
 for (let i = 0; i < process.argv.length; i++) {
   if (!process.env.MIGRATION_NAME) {
@@ -26,7 +27,11 @@ for (let i = 0; i < process.argv.length; i++) {
   }
 }
 
-if (!fs.existsSync(process.env.MODELS_PATH) || !fs.existsSync(process.env.MIGRATIONS_PATH)) {
+if (!fs.existsSync(process.env.MIGRATIONS_PATH)) {
+  fs.mkdirSync(process.env.MIGRATIONS_PATH);
+}
+
+if (!fs.existsSync(process.env.MODELS_PATH)) {
   console.log("Models and migrations paths should exist")
   process.exit(1);
 }

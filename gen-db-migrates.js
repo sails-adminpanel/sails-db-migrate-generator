@@ -31,6 +31,13 @@ const path = __importStar(require("path"));
 const sql_1 = __importDefault(require("./lib/detector/sql"));
 const sql_2 = __importDefault(require("./lib/builder/sql"));
 const ModelsHelper_1 = require("./lib/helper/ModelsHelper");
+// preparation to get Sails environment
+let Sails = require("./fixture/node_modules/sails").Sails;
+require("./fixture/app-export");
+Sails().lift({}, function (err, _sails) {
+    // @ts-ignore
+    global.sails = _sails;
+});
 function genDBMigrates() {
     // build models tree
     let modelsInfo = ModelsHelper_1.ModelsHelper.buildTree();

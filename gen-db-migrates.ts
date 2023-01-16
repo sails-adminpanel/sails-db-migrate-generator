@@ -4,6 +4,14 @@ import DB from "./lib/detector/sql";
 import MigrationBuilder from './lib/builder/sql';
 import {ModelsHelper} from "./lib/helper/ModelsHelper";
 
+// preparation to get Sails environment
+let Sails = require("./fixture/node_modules/sails").Sails;
+require("./fixture/app-export");
+Sails().lift({}, function (err: any, _sails: any) {
+  // @ts-ignore
+  global.sails = _sails;
+});
+
 export default function genDBMigrates(): void {
   // build models tree
   let modelsInfo = ModelsHelper.buildTree();
