@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "test": "mocha -r ts-node/register test/bootstrap.ts './test/{,!(fixture)/**}/*.test.ts' --exit",
-    "lint": "node ./node_modules/eslint/bin/eslint sails-db-migrate-generator --max-warnings=0"
+    "lint": "node ./node_modules/eslint/bin/eslint sails-db-migrate-generator --max-warnings=0",
+    "postinstall": "cd fixture; npm install"
   },
   "bin": {
     "sails-migrate": "./bin.js"
