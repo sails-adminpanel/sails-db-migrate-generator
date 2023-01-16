@@ -7,7 +7,7 @@
     "build": "tsc",
     "test": "mocha -r ts-node/register test/bootstrap.ts './test/{,!(fixture)/**}/*.test.ts' --exit",
     "lint": "node ./node_modules/eslint/bin/eslint sails-db-migrate-generator --max-warnings=0",
-    "postinstall": "cd fixture; npm install"
+    "postinstall": "node ./util/postinstall.js"
   },
   "bin": {
     "sails-migrate": "./bin.js"
@@ -25,7 +25,8 @@
     "@sailshq/lodash": "^3.10.3",
     "@types/db-migrate-base": "^0.0.10",
     "db-migrate": "^0.11.13",
-    "ejs": "^3.1.8"
+    "ejs": "^3.1.8",
+    "rc": "^1.0.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.22",
