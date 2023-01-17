@@ -27,6 +27,8 @@ describe('SQL builder test', function () {
       path.resolve(__dirname, "../.tmp/migrations/20221214141948-init.js"));
     fs.copyFileSync(path.resolve(__dirname, "../datamocks/migrations/20221214142409-home-add-address.js"),
       path.resolve(__dirname, "../.tmp/migrations/20221214142409-home-add-address.js"));
+    fs.copyFileSync(path.resolve(__dirname, "../datamocks/migrations/20221214142410-home-rename-address.js"),
+      path.resolve(__dirname, "../.tmp/migrations/20221214142410-home-rename-address.js"));
 
     let migrationBuilder = new MigrationBuilder(modelsPrimaryKeysTypes, Object.keys(modelsTree));
     for (let model in modelsTree) {
@@ -37,7 +39,6 @@ describe('SQL builder test', function () {
             if (modelsTree[model][attribute].type !== migrationsSchema[model][attribute].type) {
               migrationBuilder.changeColumn(model, attribute, modelsTree[model][attribute]);
             }
-            // !TODO check other options
           } else {
             migrationBuilder.addColumn(model, attribute, modelsTree[model][attribute]);
           }
@@ -76,41 +77,106 @@ describe('SQL builder test', function () {
       config: path.resolve(__dirname, "../datamocks/database.json")
     });
 
-    dbmigrate.internals.verbose = true;
-
-    try {
-      //execute any of the API methods
-      dbmigrate.reset()
-        .then( () => dbmigrate.up() );
-    } catch (e) {
-      throw e
-    }
-
-    console.log(dbmigrate)
-
-    // !TODO сделать типизацию чтоб сработал строгий режим (заимпортить типизацию с https://github.com/DefinitelyTyped/DefinitelyTyped)
+    // function runMigrations() {
+    //   return new Promise((resolve, reject) => {
+    //     try {
+    //       //execute any of the API methods
+    //       dbmigrate.reset()
+    //         .then( () => dbmigrate.up() );
+    //     } catch (e) {
+    //       throw e
+    //     }
+    //   })
+    // }
+    //
+    // await runMigrations();
 
     expect(migrationProperName).to.be.true;
     expect(migrationBuilder.getMigrationsBuild()).to.equal("db.addColumn('home', 'geo_position', {\"type\":\"json\"});\n" +
       "db.addColumn('home', 'livingSpace', {\"type\":\"real\"});\n" +
       "db.createTable('home_pets__pet_home', {\n" +
-      "    columns: {\"id\":{\"type\":\"int\",\"notNull\":true,\"autoIncrement\":true},\"home_pets\":{\"type\":\"string\"},\"pet_home\":{\"type\":\"string\"}},\n" +
+      "    columns: {\n" +
+      "    \"id\": {\n" +
+      "        \"type\": \"int\",\n" +
+      "        \"notNull\": true,\n" +
+      "        \"autoIncrement\": true\n" +
+      "    },\n" +
+      "    \"home_pets\": {\n" +
+      "        \"type\": \"string\"\n" +
+      "    },\n" +
+      "    \"pet_home\": {\n" +
+      "        \"type\": \"string\"\n" +
+      "    }\n" +
+      "},\n" +
       "    ifNotExists: true\n" +
       "  });\n" +
       "db.createTable('home_tenants__user_home', {\n" +
-      "    columns: {\"id\":{\"type\":\"int\",\"notNull\":true,\"autoIncrement\":true},\"home_tenants\":{\"type\":\"string\"},\"user_home\":{\"type\":\"string\"}},\n" +
+      "    columns: {\n" +
+      "    \"id\": {\n" +
+      "        \"type\": \"int\",\n" +
+      "        \"notNull\": true,\n" +
+      "        \"autoIncrement\": true\n" +
+      "    },\n" +
+      "    \"home_tenants\": {\n" +
+      "        \"type\": \"string\"\n" +
+      "    },\n" +
+      "    \"user_home\": {\n" +
+      "        \"type\": \"string\"\n" +
+      "    }\n" +
+      "},\n" +
       "    ifNotExists: true\n" +
       "  });\n" +
       "db.createTable('pet_owners__user_pets', {\n" +
-      "    columns: {\"id\":{\"type\":\"int\",\"notNull\":true,\"autoIncrement\":true},\"pet_owners\":{\"type\":\"string\"},\"user_pets\":{\"type\":\"string\"}},\n" +
+      "    columns: {\n" +
+      "    \"id\": {\n" +
+      "        \"type\": \"int\",\n" +
+      "        \"notNull\": true,\n" +
+      "        \"autoIncrement\": true\n" +
+      "    },\n" +
+      "    \"pet_owners\": {\n" +
+      "        \"type\": \"string\"\n" +
+      "    },\n" +
+      "    \"user_pets\": {\n" +
+      "        \"type\": \"string\"\n" +
+      "    }\n" +
+      "},\n" +
       "    ifNotExists: true\n" +
       "  });\n" +
       "db.createTable('pet', {\n" +
-      "    columns: {\"breed\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"}},\n" +
+      "    columns: {\n" +
+      "    \"breed\": {\n" +
+      "        \"type\": \"string\"\n" +
+      "    },\n" +
+      "    \"type\": {\n" +
+      "        \"type\": \"string\"\n" +
+      "    },\n" +
+      "    \"name\": {\n" +
+      "        \"type\": \"string\"\n" +
+      "    }\n" +
+      "},\n" +
       "    ifNotExists: true\n" +
       "  });\n" +
       "db.createTable('user', {\n" +
-      "    columns: {\"id\":{\"type\":\"string\",\"primaryKey\":true},\"firstName\":{\"type\":\"string\"},\"lastName\":{\"type\":\"string\"},\"age\":{\"type\":\"real\",\"autoIncrement\":true},\"email\":{\"type\":\"string\",\"unique\":true}},\n" +
+      "    columns: {\n" +
+      "    \"id\": {\n" +
+      "        \"type\": \"string\",\n" +
+      "        \"primaryKey\": true\n" +
+      "    },\n" +
+      "    \"firstName\": {\n" +
+      "        \"type\": \"string\"\n" +
+      "    },\n" +
+      "    \"lastName\": {\n" +
+      "        \"type\": \"string\"\n" +
+      "    },\n" +
+      "    \"age\": {\n" +
+      "        \"type\": \"real\",\n" +
+      "        \"autoIncrement\": true\n" +
+      "    },\n" +
+      "    \"email\": {\n" +
+      "        \"type\": \"string\",\n" +
+      "        \"unique\": true\n" +
+      "    }\n" +
+      "},\n" +
       "    ifNotExists: true\n" +
       "  });\n")
   })

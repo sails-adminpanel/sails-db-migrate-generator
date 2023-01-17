@@ -26,7 +26,7 @@ export default class MigrationBuilder {
       }
     }
     this.migrationsBuild = this.migrationsBuild.concat(`db.createTable('${tableName}', {\n` +
-      `    columns: ${JSON.stringify(columnSpec)},\n` +
+      `    columns: ${JSON.stringify(columnSpec, null, 4)},\n` +
       `    ifNotExists: true\n` +
       `  });\n`);
   }

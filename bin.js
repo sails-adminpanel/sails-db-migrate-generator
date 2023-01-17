@@ -38,4 +38,4 @@ if (!fs.existsSync(process.env.MODELS_PATH)) {
   process.exit(1);
 }
 
-await genDBMigrates();
+genDBMigrates();

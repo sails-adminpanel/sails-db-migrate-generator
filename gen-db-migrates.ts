@@ -10,6 +10,9 @@ function runSails() {
   return new Promise((resolve, reject) => {
     require("./fixture/app-export");
     Sails().lift({}, function (err: any, _sails: any) {
+      if (err) {
+        throw err
+      }
       // @ts-ignore
       global.sails = _sails;
       resolve(_sails);
