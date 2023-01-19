@@ -77,23 +77,27 @@ describe('SQL builder test', function () {
       config: path.resolve(__dirname, "../datamocks/database.json")
     });
 
-    // function runMigrations() {
-    //   return new Promise((resolve, reject) => {
-    //     try {
-    //       //execute any of the API methods
-    //       dbmigrate.reset()
-    //         .then( () => dbmigrate.up() );
-    //     } catch (e) {
-    //       throw e
-    //     }
-    //   })
-    // }
-    //
+    function runMigrations() {
+      return new Promise((resolve, reject) => {
+        try {
+          dbmigrate.reset()
+            .then( () => {
+              dbmigrate.up()
+                .then( () => resolve())
+            } );
+        } catch (e) {
+          reject(e)
+        }
+      })
+    }
+
     // await runMigrations();
 
+    console.log(migrationBuilder.getMigrationsBuild())
+
     expect(migrationProperName).to.be.true;
-    expect(migrationBuilder.getMigrationsBuild()).to.equal("db.addColumn('home', 'geo_position', {\"type\":\"json\"});\n" +
-      "db.addColumn('home', 'livingSpace', {\"type\":\"real\"});\n" +
+    expect(migrationBuilder.getMigrationsBuild()).to.equal("db.addColumn('home', 'geo_position', {\"type\":\"json\"}, callback);\n" +
+      "db.addColumn('home', 'livingSpace', {\"type\":\"real\"}, callback);\n" +
       "db.createTable('home_pets__pet_home', {\n" +
       "    columns: {\n" +
       "    \"id\": {\n" +
@@ -109,7 +113,7 @@ describe('SQL builder test', function () {
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
-      "  });\n" +
+      "  }, callback);\n" +
       "db.createTable('home_tenants__user_home', {\n" +
       "    columns: {\n" +
       "    \"id\": {\n" +
@@ -125,7 +129,7 @@ describe('SQL builder test', function () {
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
-      "  });\n" +
+      "  }, callback);\n" +
       "db.createTable('pet_owners__user_pets', {\n" +
       "    columns: {\n" +
       "    \"id\": {\n" +
@@ -141,7 +145,7 @@ describe('SQL builder test', function () {
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
-      "  });\n" +
+      "  }, callback);\n" +
       "db.createTable('pet', {\n" +
       "    columns: {\n" +
       "    \"breed\": {\n" +
@@ -155,7 +159,7 @@ describe('SQL builder test', function () {
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
-      "  });\n" +
+      "  }, callback);\n" +
       "db.createTable('user', {\n" +
       "    columns: {\n" +
       "    \"id\": {\n" +
@@ -178,6 +182,6 @@ describe('SQL builder test', function () {
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
-      "  });\n")
+      "  }, callback);\n")
   })
 });

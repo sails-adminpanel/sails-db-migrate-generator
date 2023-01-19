@@ -28,7 +28,7 @@ export default class MigrationBuilder {
     this.migrationsBuild = this.migrationsBuild.concat(`db.createTable('${tableName}', {\n` +
       `    columns: ${JSON.stringify(columnSpec, null, 4)},\n` +
       `    ifNotExists: true\n` +
-      `  });\n`);
+      `  }, callback);\n`);
   }
 
   public addColumn(tableName: string, columnName: string, columnSpec: AttributeSpec): void {
@@ -38,7 +38,7 @@ export default class MigrationBuilder {
     if (columnSpec === null) {
       return
     }
-    this.migrationsBuild = this.migrationsBuild.concat(`db.addColumn('${tableName}', '${processedColumnName}', ${JSON.stringify(columnSpec)});\n`);
+    this.migrationsBuild = this.migrationsBuild.concat(`db.addColumn('${tableName}', '${processedColumnName}', ${JSON.stringify(columnSpec)}, callback);\n`);
   }
 
   public changeColumn(tableName: string, columnName: string, columnSpec: AttributeSpec): void {
@@ -48,15 +48,15 @@ export default class MigrationBuilder {
     if (columnSpec === null) {
       return
     }
-    this.migrationsBuild = this.migrationsBuild.concat(`db.changeColumn('${tableName}', '${processedColumnName}', ${JSON.stringify(columnSpec)});\n`);
+    this.migrationsBuild = this.migrationsBuild.concat(`db.changeColumn('${tableName}', '${processedColumnName}', ${JSON.stringify(columnSpec)}, callback);\n`);
   }
 
   public dropTable(tableName: string): void {
-    this.migrationsBuild = this.migrationsBuild.concat(`db.dropTable('${tableName}');\n`);
+    this.migrationsBuild = this.migrationsBuild.concat(`db.dropTable('${tableName}', callback);\n`);
   }
 
   public removeColumn(tableName: string, columnName: string): void {
-    this.migrationsBuild = this.migrationsBuild.concat(`db.removeColumn('${tableName}', '${columnName}');\n`);
+    this.migrationsBuild = this.migrationsBuild.concat(`db.removeColumn('${tableName}', '${columnName}', callback);\n`);
   }
 
   public processColumnName(columnName: string, columnSpec: AttributeSpec): string {
