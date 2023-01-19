@@ -4,29 +4,31 @@ let cwd = process.cwd();
 let genDBMigrates = require("./gen-db-migrates").default;
 process.chdir(cwd);
 
-for (let i = 0; i < process.argv.length; i++) {
-  if (!process.env.MIGRATION_NAME) {
-    if ((process.argv[i].endsWith("bin") || process.argv[i].endsWith("sails-migrate")) && (i+1 < process.argv.length) &&
-      !process.argv[i+1].startsWith("--")) {
-      process.env.MIGRATION_NAME = process.argv[i+1]
-    } else {
-      process.env.MIGRATION_NAME = "migrations-generator-processed";
+if (!process.env.MODELS_PATH || !process.env.MIGRATIONS_PATH || !process.env.MIGRATION_NAME) {
+  for (let i = 0; i < process.argv.length; i++) {
+    if (!process.env.MIGRATION_NAME && ((process.argv[i].endsWith("bin") || process.argv[i].endsWith("sails-migrate"))
+      && (i+1 < process.argv.length) && !process.argv[i+1].startsWith("--"))) {
+      process.env.MIGRATION_NAME = process.argv[i+1];
     }
-  }
-  if (!process.env.MODELS_PATH) {
-    if (process.argv[i].startsWith("--modelsPath")) {
+    if (!process.env.MODELS_PATH && process.argv[i].startsWith("--modelsPath")) {
       process.env.MODELS_PATH = process.argv[i].split("=")[1];
-    } else {
-      process.env.MODELS_PATH = `${process.cwd()}/models`;
     }
-  }
-  if (!process.env.MIGRATIONS_PATH) {
-    if (process.argv[i].startsWith("--migrationsPath")) {
+    if (!process.env.MIGRATIONS_PATH && process.argv[i].startsWith("--migrationsPath")) {
       process.env.MIGRATIONS_PATH = process.argv[i].split("=")[1];
-    } else {
-      process.env.MIGRATIONS_PATH = `${process.cwd()}/migrations`;
     }
   }
+}
+
+if (!process.env.MIGRATION_NAME) {
+  process.env.MIGRATION_NAME = "migrations-generator-processed";
+}
+
+if (!process.env.MODELS_PATH) {
+  process.env.MODELS_PATH = `${process.cwd()}/models`;
+}
+
+if (!process.env.MIGRATIONS_PATH) {
+  process.env.MIGRATIONS_PATH = `${process.cwd()}/migrations`;
 }
 
 if (!fs.existsSync(process.env.MIGRATIONS_PATH)) {

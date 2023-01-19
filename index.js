@@ -37,21 +37,23 @@ module.exports = {
       process.env.MIGRATION_NAME = scope.args[0] ? scope.args[0] : "migrations-generator-processed";
     }
 
-    for (let arg of process.argv) {
-      if (!process.env.MODELS_PATH) {
-        if (arg.startsWith("--modelsPath")) {
+    if (!process.env.MODELS_PATH || !process.env.MIGRATIONS_PATH) {
+      for (let arg of process.argv) {
+        if (!process.env.MODELS_PATH && arg.startsWith("--modelsPath")) {
           process.env.MODELS_PATH = arg.split("=")[1];
-        } else {
-          process.env.MODELS_PATH = `${process.cwd()}/api/models`;
         }
-      }
-      if (!process.env.MIGRATIONS_PATH) {
-        if (arg.startsWith("--migrationsPath")) {
+        if (!process.env.MIGRATIONS_PATH && arg.startsWith("--migrationsPath")) {
           process.env.MIGRATIONS_PATH = arg.split("=")[1];
-        } else {
-          process.env.MIGRATIONS_PATH = `${process.cwd()}/migrations`;
         }
       }
+    }
+
+    if (!process.env.MODELS_PATH) {
+      process.env.MODELS_PATH = `${process.cwd()}/api/models`;
+    }
+
+    if (!process.env.MIGRATIONS_PATH) {
+      process.env.MIGRATIONS_PATH = `${process.cwd()}/migrations`;
     }
 
     if (!fs.existsSync(process.env.MODELS_PATH) || !fs.existsSync(process.env.MIGRATIONS_PATH)) {
