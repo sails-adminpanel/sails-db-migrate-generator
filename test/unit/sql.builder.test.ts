@@ -93,8 +93,6 @@ describe('SQL builder test', function () {
 
     // await runMigrations();
 
-    console.log(migrationBuilder.getMigrationsBuild())
-
     expect(migrationProperName).to.be.true;
     expect(migrationBuilder.getMigrationsBuild()).to.equal("db.addColumn('home', 'geo_position', {\"type\":\"json\"}, callback);\n" +
       "db.addColumn('home', 'livingSpace', {\"type\":\"real\"}, callback);\n" +

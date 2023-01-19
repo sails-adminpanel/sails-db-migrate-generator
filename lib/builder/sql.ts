@@ -126,6 +126,8 @@ export default class MigrationBuilder {
     if (columnSpec.type === 'number') {
       if (columnName === 'createdAt' || columnName === 'updatedAt') {
         columnSpec.type = 'bigint';
+      } else if (columnSpec.autoIncrement) {
+        columnSpec.type = 'int'
       } else {
         columnSpec.type = 'real';
       }
