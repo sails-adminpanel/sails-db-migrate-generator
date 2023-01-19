@@ -83,7 +83,7 @@ describe('SQL builder test', function () {
           dbmigrate.reset()
             .then( () => {
               dbmigrate.up()
-                .then( () => resolve())
+                .then( () => resolve(true))
             } );
         } catch (e) {
           reject(e)
@@ -171,7 +171,7 @@ describe('SQL builder test', function () {
       "        \"type\": \"string\"\n" +
       "    },\n" +
       "    \"age\": {\n" +
-      "        \"type\": \"real\",\n" +
+      "        \"type\": \"int\",\n" +
       "        \"autoIncrement\": true\n" +
       "    },\n" +
       "    \"email\": {\n" +
