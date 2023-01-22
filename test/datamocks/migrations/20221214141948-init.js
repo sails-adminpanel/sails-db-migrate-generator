@@ -1,5 +1,6 @@
 'use strict';
 
+var async = require('async');
 var dbm;
 var type;
 var seed;
@@ -15,18 +16,20 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db, callback) {
-  db.createTable('home', {
-    columns: {
-      id: { type: 'int', primaryKey: true, autoIncrement: true }
-    },
-    ifNotExists: true
-  }, callback);
-  db.createTable('pet', {
-    columns: {
-      id: { type: 'int', primaryKey: true, autoIncrement: true }
-    },
-    ifNotExists: true
-  }, callback);
+  async.series([
+    (cb) => db.createTable('home', {
+      columns: {
+        id: { type: 'int', primaryKey: true, autoIncrement: true }
+      },
+      ifNotExists: true
+    }, cb),
+    (cb) => db.createTable('pet', {
+      columns: {
+        id: { type: 'int', primaryKey: true, autoIncrement: true }
+      },
+      ifNotExists: true
+    }, cb),
+  ], callback)
 };
 
 exports.down = function(db) {

@@ -27,8 +27,6 @@ describe('SQL builder test', function () {
       path.resolve(__dirname, "../.tmp/migrations/20221214141948-init.js"));
     fs.copyFileSync(path.resolve(__dirname, "../datamocks/migrations/20221214142409-home-add-address.js"),
       path.resolve(__dirname, "../.tmp/migrations/20221214142409-home-add-address.js"));
-    fs.copyFileSync(path.resolve(__dirname, "../datamocks/migrations/20221214142410-home-rename-address.js"),
-      path.resolve(__dirname, "../.tmp/migrations/20221214142410-home-rename-address.js"));
 
     let migrationBuilder = new MigrationBuilder(modelsPrimaryKeysTypes, Object.keys(modelsTree));
     for (let model in modelsTree) {
@@ -77,6 +75,7 @@ describe('SQL builder test', function () {
       config: path.resolve(__dirname, "../datamocks/database.json")
     });
 
+    let migrationError = false;
     function runMigrations() {
       return new Promise((resolve, reject) => {
         try {
@@ -86,17 +85,19 @@ describe('SQL builder test', function () {
                 .then( () => resolve(true))
             } );
         } catch (e) {
+          migrationError = true;
           reject(e)
         }
       })
     }
 
-    // await runMigrations();
+    await runMigrations();
 
     expect(migrationProperName).to.be.true;
-    expect(migrationBuilder.getMigrationsBuild()).to.equal("db.addColumn('home', 'geo_position', {\"type\":\"json\"}, callback);\n" +
-      "db.addColumn('home', 'livingSpace', {\"type\":\"real\"}, callback);\n" +
-      "db.createTable('home_pets__pet_home', {\n" +
+    expect(migrationError).to.be.false;
+    expect(migrationBuilder.getMigrationsBuild()).to.equal("(cb) => db.addColumn('home', 'geo_position', {\"type\":\"json\"}, cb),\n" +
+      "(cb) => db.addColumn('home', 'livingSpace', {\"type\":\"real\"}, cb),\n" +
+      "(cb) => db.createTable('home_pets__pet_home', {\n" +
       "    columns: {\n" +
       "    \"id\": {\n" +
       "        \"type\": \"int\",\n" +
@@ -111,8 +112,8 @@ describe('SQL builder test', function () {
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
-      "  }, callback);\n" +
-      "db.createTable('home_tenants__user_home', {\n" +
+      "  }, cb),\n" +
+      "(cb) => db.createTable('home_tenants__user_home', {\n" +
       "    columns: {\n" +
       "    \"id\": {\n" +
       "        \"type\": \"int\",\n" +
@@ -127,8 +128,8 @@ describe('SQL builder test', function () {
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
-      "  }, callback);\n" +
-      "db.createTable('pet_owners__user_pets', {\n" +
+      "  }, cb),\n" +
+      "(cb) => db.createTable('pet_owners__user_pets', {\n" +
       "    columns: {\n" +
       "    \"id\": {\n" +
       "        \"type\": \"int\",\n" +
@@ -143,8 +144,8 @@ describe('SQL builder test', function () {
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
-      "  }, callback);\n" +
-      "db.createTable('pet', {\n" +
+      "  }, cb),\n" +
+      "(cb) => db.createTable('pet', {\n" +
       "    columns: {\n" +
       "    \"breed\": {\n" +
       "        \"type\": \"string\"\n" +
@@ -157,8 +158,8 @@ describe('SQL builder test', function () {
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
-      "  }, callback);\n" +
-      "db.createTable('user', {\n" +
+      "  }, cb),\n" +
+      "(cb) => db.createTable('user', {\n" +
       "    columns: {\n" +
       "    \"id\": {\n" +
       "        \"type\": \"string\",\n" +
@@ -180,6 +181,6 @@ describe('SQL builder test', function () {
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
-      "  }, callback);\n")
+      "  }, cb),\n")
   })
 });

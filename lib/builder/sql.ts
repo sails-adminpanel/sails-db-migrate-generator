@@ -25,10 +25,10 @@ export default class MigrationBuilder {
         delete columnSpec[column]
       }
     }
-    this.migrationsBuild = this.migrationsBuild.concat(`db.createTable('${tableName}', {\n` +
+    this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.createTable('${tableName}', {\n` +
       `    columns: ${JSON.stringify(columnSpec, null, 4)},\n` +
       `    ifNotExists: true\n` +
-      `  }, callback);\n`);
+      `  }, cb),\n`);
   }
 
   public addColumn(tableName: string, columnName: string, columnSpec: AttributeSpec): void {
@@ -38,7 +38,7 @@ export default class MigrationBuilder {
     if (columnSpec === null) {
       return
     }
-    this.migrationsBuild = this.migrationsBuild.concat(`db.addColumn('${tableName}', '${processedColumnName}', ${JSON.stringify(columnSpec)}, callback);\n`);
+    this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.addColumn('${tableName}', '${processedColumnName}', ${JSON.stringify(columnSpec)}, cb),\n`);
   }
 
   public changeColumn(tableName: string, columnName: string, columnSpec: AttributeSpec): void {
@@ -48,15 +48,15 @@ export default class MigrationBuilder {
     if (columnSpec === null) {
       return
     }
-    this.migrationsBuild = this.migrationsBuild.concat(`db.changeColumn('${tableName}', '${processedColumnName}', ${JSON.stringify(columnSpec)}, callback);\n`);
+    this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.changeColumn('${tableName}', '${processedColumnName}', ${JSON.stringify(columnSpec)}, cb),\n`);
   }
 
   public dropTable(tableName: string): void {
-    this.migrationsBuild = this.migrationsBuild.concat(`db.dropTable('${tableName}', callback);\n`);
+    this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.dropTable('${tableName}', cb),\n`);
   }
 
   public removeColumn(tableName: string, columnName: string): void {
-    this.migrationsBuild = this.migrationsBuild.concat(`db.removeColumn('${tableName}', '${columnName}', callback);\n`);
+    this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.removeColumn('${tableName}', '${columnName}', cb),\n`);
   }
 
   public processColumnName(columnName: string, columnSpec: AttributeSpec): string {

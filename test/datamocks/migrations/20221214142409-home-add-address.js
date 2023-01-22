@@ -1,5 +1,6 @@
 'use strict';
 
+var async = require('async');
 var dbm;
 var type;
 var seed;
@@ -15,13 +16,12 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db, callback) {
-  db.addColumn('home', 'name', {
-    type: 'string'
-  }, callback);
-  db.addColumn('home', 'number', {
-    type: 'int'
-  }, callback);
-  db.dropTable('pet', callback);
+  async.series([
+    (cb) => db.addColumn('home', 'address', {
+      type: 'string'
+    }, cb),
+    (cb) => db.dropTable('pet', cb),
+  ], callback)
 };
 
 exports.down = function(db) {
