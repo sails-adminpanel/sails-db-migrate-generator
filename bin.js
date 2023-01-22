@@ -2,7 +2,6 @@
 let fs = require("fs");
 let path = require("path");
 let cwd = process.cwd();
-let genDBMigrates = require("./gen-db-migrates").default;
 process.chdir(cwd);
 
 if (!process.env.MODELS_PATH || !process.env.MIGRATIONS_PATH || !process.env.MIGRATION_NAME) {
@@ -42,7 +41,11 @@ if (!fs.existsSync(process.env.MODELS_PATH)) {
 }
 
 if (!fs.existsSync(path.resolve(__dirname, "./fixture/node_modules"))) {
-  require("./util/postinstall");
+  require("./util/postinstall", function() {
+    let genDBMigrates = require("./gen-db-migrates").default;
+    genDBMigrates();
+  });
+} else {
+  let genDBMigrates = require("./gen-db-migrates").default;
+  genDBMigrates();
 }
-
-genDBMigrates();
