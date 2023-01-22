@@ -93,8 +93,6 @@ export default class MigrationBuilder {
       if (!this.migrationsBuild.includes(`${columnSpec.collection}_${columnSpec.via}__${tableName}_${columnName}`)) {
         this.createTable(`${tableName}_${columnName}__${columnSpec.collection}_${columnSpec.via}`, {
           id: {type: 'int', notNull: true, autoIncrement: true},
-          createdAt: {type: 'bigint'},
-          updatedAt: {type: 'bigint'},
           [`${tableName}_${columnName}`]: {type: tableFieldsType},
           [`${columnSpec.collection}_${columnSpec.via}`]: {type: tableFieldsType}
         })
