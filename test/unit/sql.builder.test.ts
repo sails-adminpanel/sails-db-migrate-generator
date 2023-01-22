@@ -104,6 +104,12 @@ describe('SQL builder test', function () {
       "        \"notNull\": true,\n" +
       "        \"autoIncrement\": true\n" +
       "    },\n" +
+      "    \"createdAt\": {\n" +
+      "        \"type\": \"bigint\"\n" +
+      "    },\n" +
+      "    \"updatedAt\": {\n" +
+      "        \"type\": \"bigint\"\n" +
+      "    },\n" +
       "    \"home_pets\": {\n" +
       "        \"type\": \"string\"\n" +
       "    },\n" +
@@ -120,6 +126,12 @@ describe('SQL builder test', function () {
       "        \"notNull\": true,\n" +
       "        \"autoIncrement\": true\n" +
       "    },\n" +
+      "    \"createdAt\": {\n" +
+      "        \"type\": \"bigint\"\n" +
+      "    },\n" +
+      "    \"updatedAt\": {\n" +
+      "        \"type\": \"bigint\"\n" +
+      "    },\n" +
       "    \"home_tenants\": {\n" +
       "        \"type\": \"string\"\n" +
       "    },\n" +
@@ -135,6 +147,12 @@ describe('SQL builder test', function () {
       "        \"type\": \"int\",\n" +
       "        \"notNull\": true,\n" +
       "        \"autoIncrement\": true\n" +
+      "    },\n" +
+      "    \"createdAt\": {\n" +
+      "        \"type\": \"bigint\"\n" +
+      "    },\n" +
+      "    \"updatedAt\": {\n" +
+      "        \"type\": \"bigint\"\n" +
       "    },\n" +
       "    \"pet_owners\": {\n" +
       "        \"type\": \"string\"\n" +
@@ -155,6 +173,12 @@ describe('SQL builder test', function () {
       "    },\n" +
       "    \"name\": {\n" +
       "        \"type\": \"string\"\n" +
+      "    },\n" +
+      "    \"createdAt\": {\n" +
+      "        \"type\": \"bigint\"\n" +
+      "    },\n" +
+      "    \"updatedAt\": {\n" +
+      "        \"type\": \"bigint\"\n" +
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
@@ -178,6 +202,12 @@ describe('SQL builder test', function () {
       "    \"email\": {\n" +
       "        \"type\": \"string\",\n" +
       "        \"unique\": true\n" +
+      "    },\n" +
+      "    \"createdAt\": {\n" +
+      "        \"type\": \"bigint\"\n" +
+      "    },\n" +
+      "    \"updatedAt\": {\n" +
+      "        \"type\": \"bigint\"\n" +
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
