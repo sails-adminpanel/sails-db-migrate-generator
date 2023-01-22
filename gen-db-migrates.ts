@@ -5,7 +5,7 @@ import MigrationBuilder from './lib/builder/sql';
 import {ModelsHelper} from "./lib/helper/ModelsHelper";
 
 // preparation to get Sails environment
-let Sails = require(__dirname + "./fixture/node_modules/sails").Sails;
+let Sails = require(path.resolve(__dirname, "./fixture/node_modules/sails")).Sails;
 function runSails() {
   return new Promise((resolve, reject) => {
     require("./fixture/app-export");

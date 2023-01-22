@@ -32,7 +32,7 @@ const sql_1 = __importDefault(require("./lib/detector/sql"));
 const sql_2 = __importDefault(require("./lib/builder/sql"));
 const ModelsHelper_1 = require("./lib/helper/ModelsHelper");
 // preparation to get Sails environment
-let Sails = require(__dirname + "./fixture/node_modules/sails").Sails;
+let Sails = require(path.resolve(__dirname, "./fixture/node_modules/sails")).Sails;
 function runSails() {
     return new Promise((resolve, reject) => {
         require("./fixture/app-export");
