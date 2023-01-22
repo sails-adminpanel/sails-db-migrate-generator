@@ -25,6 +25,10 @@ export default class MigrationBuilder {
         delete columnSpec[column]
       }
     }
+
+    if (!columnSpec.createdAt) {
+      columnSpec.createdAt = {type: "bigint"}
+    }
     this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.createTable('${tableName}', {\n` +
       `    columns: ${JSON.stringify(columnSpec, null, 4)},\n` +
       `    ifNotExists: true\n` +
@@ -86,6 +90,7 @@ export default class MigrationBuilder {
       if (!this.migrationsBuild.includes(`${columnSpec.collection}_${columnSpec.via}__${tableName}_${columnName}`)) {
         this.createTable(`${tableName}_${columnName}__${columnSpec.collection}_${columnSpec.via}`, {
           id: {type: 'int', notNull: true, autoIncrement: true},
+          createdAt: {type: 'bigint'},
           [`${tableName}_${columnName}`]: {type: tableFieldsType},
           [`${columnSpec.collection}_${columnSpec.via}`]: {type: tableFieldsType}
         })
