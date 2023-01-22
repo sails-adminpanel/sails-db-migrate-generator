@@ -1,5 +1,6 @@
-var package = require("../fixture/package.json");
-process.chdir("./fixture");
+let path = require("path");
+var package = require(path.resolve(__dirname, "../fixture/package.json"));
+process.chdir(path.resolve(__dirname, "../fixture"));
 let dependencies = [];
 for (let key in package.dependencies) {
   dependencies.push(`${key}@${package.dependencies[key]}`)

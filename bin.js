@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 let fs = require("fs");
+let path = require("path");
 let cwd = process.cwd();
 let genDBMigrates = require("./gen-db-migrates").default;
 process.chdir(cwd);
@@ -38,6 +39,10 @@ if (!fs.existsSync(process.env.MIGRATIONS_PATH)) {
 if (!fs.existsSync(process.env.MODELS_PATH)) {
   console.log("Models and migrations paths should exist")
   process.exit(1);
+}
+
+if (!fs.existsSync(path.resolve(__dirname, "./fixture/node_modules"))) {
+  require("./util/postinstall");
 }
 
 genDBMigrates();
