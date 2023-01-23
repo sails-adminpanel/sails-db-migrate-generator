@@ -20,7 +20,7 @@ exports.up = function(db, callback) {
     (cb) => db.addColumn('home', 'address', {
       type: 'string'
     }, cb),
-    (cb) => db.dropTable('pet', cb),
+    (cb) => db.dropTable('pet', {}, cb),
   ], callback)
 };
 
