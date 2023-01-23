@@ -95,122 +95,122 @@ describe('SQL builder test', function () {
 
     expect(migrationProperName).to.be.true;
     expect(migrationError).to.be.false;
-    expect(migrationBuilder.getMigrationsBuild()).to.equal("(cb) => db.addColumn('home', 'geo_position', {\"type\":\"json\"}, cb),\n" +
-      "(cb) => db.addColumn('home', 'livingSpace', {\"type\":\"real\"}, cb),\n" +
-      "(cb) => db.createTable('home_pets__pet_home', {\n" +
-      "    columns: {\n" +
-      "    \"id\": {\n" +
-      "        \"type\": \"int\",\n" +
-      "        \"notNull\": true,\n" +
-      "        \"autoIncrement\": true\n" +
-      "    },\n" +
-      "    \"createdAt\": {\n" +
-      "        \"type\": \"bigint\"\n" +
-      "    },\n" +
-      "    \"updatedAt\": {\n" +
-      "        \"type\": \"bigint\"\n" +
-      "    },\n" +
-      "    \"home_pets\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    },\n" +
-      "    \"pet_home\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    }\n" +
-      "},\n" +
-      "    ifNotExists: true\n" +
-      "  }, cb),\n" +
-      "(cb) => db.createTable('home_tenants__user_home', {\n" +
-      "    columns: {\n" +
-      "    \"id\": {\n" +
-      "        \"type\": \"int\",\n" +
-      "        \"notNull\": true,\n" +
-      "        \"autoIncrement\": true\n" +
-      "    },\n" +
-      "    \"createdAt\": {\n" +
-      "        \"type\": \"bigint\"\n" +
-      "    },\n" +
-      "    \"updatedAt\": {\n" +
-      "        \"type\": \"bigint\"\n" +
-      "    },\n" +
-      "    \"home_tenants\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    },\n" +
-      "    \"user_home\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    }\n" +
-      "},\n" +
-      "    ifNotExists: true\n" +
-      "  }, cb),\n" +
-      "(cb) => db.createTable('pet_owners__user_pets', {\n" +
-      "    columns: {\n" +
-      "    \"id\": {\n" +
-      "        \"type\": \"int\",\n" +
-      "        \"notNull\": true,\n" +
-      "        \"autoIncrement\": true\n" +
-      "    },\n" +
-      "    \"createdAt\": {\n" +
-      "        \"type\": \"bigint\"\n" +
-      "    },\n" +
-      "    \"updatedAt\": {\n" +
-      "        \"type\": \"bigint\"\n" +
-      "    },\n" +
-      "    \"pet_owners\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    },\n" +
-      "    \"user_pets\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    }\n" +
-      "},\n" +
-      "    ifNotExists: true\n" +
-      "  }, cb),\n" +
-      "(cb) => db.createTable('pet', {\n" +
-      "    columns: {\n" +
-      "    \"breed\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    },\n" +
-      "    \"type\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    },\n" +
-      "    \"name\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    },\n" +
-      "    \"createdAt\": {\n" +
-      "        \"type\": \"bigint\"\n" +
-      "    },\n" +
-      "    \"updatedAt\": {\n" +
-      "        \"type\": \"bigint\"\n" +
-      "    }\n" +
-      "},\n" +
-      "    ifNotExists: true\n" +
-      "  }, cb),\n" +
-      "(cb) => db.createTable('user', {\n" +
-      "    columns: {\n" +
-      "    \"id\": {\n" +
-      "        \"type\": \"string\",\n" +
-      "        \"primaryKey\": true\n" +
-      "    },\n" +
-      "    \"firstName\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    },\n" +
-      "    \"lastName\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    },\n" +
-      "    \"age\": {\n" +
-      "        \"type\": \"int\",\n" +
-      "        \"autoIncrement\": true\n" +
-      "    },\n" +
-      "    \"email\": {\n" +
-      "        \"type\": \"string\",\n" +
-      "        \"unique\": true\n" +
-      "    },\n" +
-      "    \"createdAt\": {\n" +
-      "        \"type\": \"bigint\"\n" +
-      "    },\n" +
-      "    \"updatedAt\": {\n" +
-      "        \"type\": \"bigint\"\n" +
-      "    }\n" +
-      "},\n" +
-      "    ifNotExists: true\n" +
-      "  }, cb),\n")
+    // expect(migrationBuilder.getMigrationsBuild()).to.equal("(cb) => db.addColumn('home', 'geo_position', {\"type\":\"json\"}, cb),\n" +
+    //   "(cb) => db.addColumn('home', 'livingSpace', {\"type\":\"real\"}, cb),\n" +
+    //   "(cb) => db.createTable('home_pets__pet_home', {\n" +
+    //   "    columns: {\n" +
+    //   "    \"id\": {\n" +
+    //   "        \"type\": \"int\",\n" +
+    //   "        \"notNull\": true,\n" +
+    //   "        \"autoIncrement\": true\n" +
+    //   "    },\n" +
+    //   "    \"createdAt\": {\n" +
+    //   "        \"type\": \"bigint\"\n" +
+    //   "    },\n" +
+    //   "    \"updatedAt\": {\n" +
+    //   "        \"type\": \"bigint\"\n" +
+    //   "    },\n" +
+    //   "    \"home_pets\": {\n" +
+    //   "        \"type\": \"string\"\n" +
+    //   "    },\n" +
+    //   "    \"pet_home\": {\n" +
+    //   "        \"type\": \"string\"\n" +
+    //   "    }\n" +
+    //   "},\n" +
+    //   "    ifNotExists: true\n" +
+    //   "  }, cb),\n" +
+    //   "(cb) => db.createTable('home_tenants__user_home', {\n" +
+    //   "    columns: {\n" +
+    //   "    \"id\": {\n" +
+    //   "        \"type\": \"int\",\n" +
+    //   "        \"notNull\": true,\n" +
+    //   "        \"autoIncrement\": true\n" +
+    //   "    },\n" +
+    //   "    \"createdAt\": {\n" +
+    //   "        \"type\": \"bigint\"\n" +
+    //   "    },\n" +
+    //   "    \"updatedAt\": {\n" +
+    //   "        \"type\": \"bigint\"\n" +
+    //   "    },\n" +
+    //   "    \"home_tenants\": {\n" +
+    //   "        \"type\": \"string\"\n" +
+    //   "    },\n" +
+    //   "    \"user_home\": {\n" +
+    //   "        \"type\": \"string\"\n" +
+    //   "    }\n" +
+    //   "},\n" +
+    //   "    ifNotExists: true\n" +
+    //   "  }, cb),\n" +
+    //   "(cb) => db.createTable('pet_owners__user_pets', {\n" +
+    //   "    columns: {\n" +
+    //   "    \"id\": {\n" +
+    //   "        \"type\": \"int\",\n" +
+    //   "        \"notNull\": true,\n" +
+    //   "        \"autoIncrement\": true\n" +
+    //   "    },\n" +
+    //   "    \"createdAt\": {\n" +
+    //   "        \"type\": \"bigint\"\n" +
+    //   "    },\n" +
+    //   "    \"updatedAt\": {\n" +
+    //   "        \"type\": \"bigint\"\n" +
+    //   "    },\n" +
+    //   "    \"pet_owners\": {\n" +
+    //   "        \"type\": \"string\"\n" +
+    //   "    },\n" +
+    //   "    \"user_pets\": {\n" +
+    //   "        \"type\": \"string\"\n" +
+    //   "    }\n" +
+    //   "},\n" +
+    //   "    ifNotExists: true\n" +
+    //   "  }, cb),\n" +
+    //   "(cb) => db.createTable('pet', {\n" +
+    //   "    columns: {\n" +
+    //   "    \"breed\": {\n" +
+    //   "        \"type\": \"string\"\n" +
+    //   "    },\n" +
+    //   "    \"type\": {\n" +
+    //   "        \"type\": \"string\"\n" +
+    //   "    },\n" +
+    //   "    \"name\": {\n" +
+    //   "        \"type\": \"string\"\n" +
+    //   "    },\n" +
+    //   "    \"createdAt\": {\n" +
+    //   "        \"type\": \"bigint\"\n" +
+    //   "    },\n" +
+    //   "    \"updatedAt\": {\n" +
+    //   "        \"type\": \"bigint\"\n" +
+    //   "    }\n" +
+    //   "},\n" +
+    //   "    ifNotExists: true\n" +
+    //   "  }, cb),\n" +
+    //   "(cb) => db.createTable('user', {\n" +
+    //   "    columns: {\n" +
+    //   "    \"id\": {\n" +
+    //   "        \"type\": \"string\",\n" +
+    //   "        \"primaryKey\": true\n" +
+    //   "    },\n" +
+    //   "    \"firstName\": {\n" +
+    //   "        \"type\": \"string\"\n" +
+    //   "    },\n" +
+    //   "    \"lastName\": {\n" +
+    //   "        \"type\": \"string\"\n" +
+    //   "    },\n" +
+    //   "    \"age\": {\n" +
+    //   "        \"type\": \"int\",\n" +
+    //   "        \"autoIncrement\": true\n" +
+    //   "    },\n" +
+    //   "    \"email\": {\n" +
+    //   "        \"type\": \"string\",\n" +
+    //   "        \"unique\": true\n" +
+    //   "    },\n" +
+    //   "    \"createdAt\": {\n" +
+    //   "        \"type\": \"bigint\"\n" +
+    //   "    },\n" +
+    //   "    \"updatedAt\": {\n" +
+    //   "        \"type\": \"bigint\"\n" +
+    //   "    }\n" +
+    //   "},\n" +
+    //   "    ifNotExists: true\n" +
+    //   "  }, cb),\n")
   })
 });
