@@ -9,14 +9,16 @@ export default class MigrationBuilder {
   private migrationsBuild: string;
   private readonly modelsPrimaryKeysTypes: {[key:string]: string};
   private modelsList: string[];
+  private migrationsSchema;
 
-  constructor(modelsPrimaryKeysTypes, modelsList) {
+  constructor(modelsPrimaryKeysTypes, modelsList, migrationsSchema) {
     this.migrationsBuild = "";
     this.modelsPrimaryKeysTypes = modelsPrimaryKeysTypes;
     this.modelsList = modelsList;
+    this.migrationsSchema = migrationsSchema;
   }
 
-  public createTable(tableName: string, columnSpec: ModelSpec): void {
+  public createTable(tableName: string, columnSpec: ModelSpec, withoutTimeFields = false): void {
     for (let column in columnSpec) {
       let processedColumnName = this.processColumnName(column, columnSpec[column]);
       columnSpec[column] = this.processColumnSpec(tableName, processedColumnName, columnSpec[column]);
@@ -26,12 +28,15 @@ export default class MigrationBuilder {
       }
     }
 
-    if (!columnSpec.createdAt) {
-      columnSpec.createdAt = {type: "bigint"}
+    if (!withoutTimeFields) {
+      if (!columnSpec.createdAt) {
+        columnSpec.createdAt = {type: "bigint"}
+      }
+      if (!columnSpec.updatedAt) {
+        columnSpec.updatedAt = {type: "bigint"}
+      }
     }
-    if (!columnSpec.updatedAt) {
-      columnSpec.updatedAt = {type: "bigint"}
-    }
+
     this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.createTable('${tableName}', {\n` +
       `    columns: ${JSON.stringify(columnSpec, null, 4)},\n` +
       `    ifNotExists: true\n` +
@@ -90,12 +95,17 @@ export default class MigrationBuilder {
       }
       // db-migrate should check if intermediate table exists, then skip creating the table (ejs)
       // this case is only for outside model collection
-      if (!this.migrationsBuild.includes(`${columnSpec.collection}_${columnSpec.via}__${tableName}_${columnName}`)) {
+      let tableAlreadyInSchema = false;
+      if (`${tableName}_${columnName}__${columnSpec.collection}_${columnSpec.via}` in this.migrationsSchema ||
+        `${columnSpec.collection}_${columnSpec.via}__${tableName}_${columnName}` in this.migrationsSchema) {
+        tableAlreadyInSchema = true;
+      }
+      if (!this.migrationsBuild.includes(`${columnSpec.collection}_${columnSpec.via}__${tableName}_${columnName}`) && !tableAlreadyInSchema) {
         this.createTable(`${tableName}_${columnName}__${columnSpec.collection}_${columnSpec.via}`, {
           id: {type: 'int', notNull: true, autoIncrement: true},
           [`${tableName}_${columnName}`]: {type: tableFieldsType},
           [`${columnSpec.collection}_${columnSpec.via}`]: {type: tableFieldsType}
-        })
+        }, true)
       }
 
       return null; // do not create a migration to this field

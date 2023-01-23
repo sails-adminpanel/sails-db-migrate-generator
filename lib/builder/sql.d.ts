@@ -4,8 +4,9 @@ export default class MigrationBuilder {
     private migrationsBuild;
     private readonly modelsPrimaryKeysTypes;
     private modelsList;
-    constructor(modelsPrimaryKeysTypes: any, modelsList: any);
-    createTable(tableName: string, columnSpec: ModelSpec): void;
+    private migrationsSchema;
+    constructor(modelsPrimaryKeysTypes: any, modelsList: any, migrationsSchema: any);
+    createTable(tableName: string, columnSpec: ModelSpec, withoutTimeFields?: boolean): void;
     addColumn(tableName: string, columnName: string, columnSpec: AttributeSpec): void;
     changeColumn(tableName: string, columnName: string, columnSpec: AttributeSpec): void;
     dropTable(tableName: string): void;

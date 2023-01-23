@@ -74,7 +74,7 @@ async function genDBMigrates() {
     }
     let migrationsSchema = db.getWaterlineSchema();
     // compare models tree and migrations schema and create new migrations
-    let migrationBuilder = new sql_2.default(modelsPrimaryKeysTypes, Object.keys(modelsTree));
+    let migrationBuilder = new sql_2.default(modelsPrimaryKeysTypes, Object.keys(modelsTree), migrationsSchema);
     for (let model in modelsTree) {
         try {
             if (model in migrationsSchema) {
