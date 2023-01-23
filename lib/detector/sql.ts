@@ -23,7 +23,7 @@ export default class DB {
     callback();
   }
 
-  public dropTable(tableName: string, options, callback): void {
+  public dropTable(tableName: string, callback): void {
     // !TODO how to process this options ?
     // options will be an array, to process this case we need usage example
     // what means [options,] here: dropTable(tableName, [options,] callback) ?

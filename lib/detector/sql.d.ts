@@ -5,7 +5,7 @@ export default class DB {
     constructor();
     createTable(tableName: string, columnSpec: Base.CreateTableOptions, callback: any): void;
     addColumn(tableName: string, columnName: string, columnSpec: Base.ColumnSpec, callback: any): void;
-    dropTable(tableName: string, options: any, callback: any): void;
+    dropTable(tableName: string, callback: any): void;
     renameTable(tableName: string, newTableName: string, callback: any): void;
     removeColumn(tableName: string, columnName: string, callback: any): void;
     renameColumn(tableName: string, oldColumnName: string, newColumnName: string, callback: any): void;
