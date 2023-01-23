@@ -15,12 +15,16 @@ export default class DB {
     for (let key in columns) {
       this.intermediateMigrationSchema[tableName][key] = this.processColumn(columns[key]);
     }
-    callback();
+    if (typeof callback === "function") {
+      callback();
+    }
   }
 
   public addColumn(tableName: string, columnName: string, columnSpec: Base.ColumnSpec, callback): void {
     this.intermediateMigrationSchema[tableName][columnName] = this.processColumn(columnSpec);
-    callback();
+    if (typeof callback === "function") {
+      callback();
+    }
   }
 
   public dropTable(tableName: string, callback): void {
@@ -28,29 +32,39 @@ export default class DB {
     // options will be an array, to process this case we need usage example
     // what means [options,] here: dropTable(tableName, [options,] callback) ?
     delete this.intermediateMigrationSchema[tableName];
-    callback();
+    if (typeof callback === "function") {
+      callback();
+    }
   }
 
   public renameTable(tableName: string, newTableName: string, callback): void {
     this.intermediateMigrationSchema[newTableName] = this.intermediateMigrationSchema[tableName];
     delete this.intermediateMigrationSchema[tableName];
-    callback();
+    if (typeof callback === "function") {
+      callback();
+    }
   }
 
   public removeColumn(tableName: string, columnName: string, callback): void {
     delete this.intermediateMigrationSchema[tableName][columnName];
-    callback();
+    if (typeof callback === "function") {
+      callback();
+    }
   }
 
   public renameColumn(tableName: string, oldColumnName: string, newColumnName: string, callback): void {
     this.intermediateMigrationSchema[tableName][newColumnName] = this.intermediateMigrationSchema[tableName][oldColumnName];
     delete this.intermediateMigrationSchema[tableName][oldColumnName];
-    callback();
+    if (typeof callback === "function") {
+      callback();
+    }
   }
 
   public changeColumn(tableName: string, columnName: string, columnSpec: Base.ColumnSpec, callback) {
     this.intermediateMigrationSchema[tableName][columnName] = this.processColumn(columnSpec);
-    callback();
+    if (typeof callback === "function") {
+      callback();
+    }
   }
 
   // !TODO add all other methods
