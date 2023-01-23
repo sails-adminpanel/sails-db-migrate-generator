@@ -28,7 +28,7 @@ describe('SQL builder test', function () {
     fs.copyFileSync(path.resolve(__dirname, "../datamocks/migrations/20221214142409-home-add-address.js"),
       path.resolve(__dirname, "../.tmp/migrations/20221214142409-home-add-address.js"));
 
-    let migrationBuilder = new MigrationBuilder(modelsPrimaryKeysTypes, Object.keys(modelsTree));
+    let migrationBuilder = new MigrationBuilder(modelsPrimaryKeysTypes, Object.keys(modelsTree), migrationsSchema);
     for (let model in modelsTree) {
       if (model in migrationsSchema) {
         for (let attribute in modelsTree[model]) {
