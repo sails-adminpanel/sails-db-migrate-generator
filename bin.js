@@ -4,6 +4,9 @@ let path = require("path");
 let cwd = process.cwd();
 process.chdir(cwd);
 
+// !TODO вывести --help и --version
+// !TODO если миграция пустая, выходить и писать что миграция не нужна
+
 if (!process.env.MODELS_PATH || !process.env.MIGRATIONS_PATH || !process.env.MIGRATION_NAME) {
   for (let i = 0; i < process.argv.length; i++) {
     if (!process.env.MIGRATION_NAME && ((process.argv[i].endsWith("bin") || process.argv[i].endsWith("sails-migrate"))
@@ -42,10 +45,15 @@ if (!fs.existsSync(process.env.MODELS_PATH)) {
 
 if (!fs.existsSync(path.resolve(__dirname, "./fixture/node_modules"))) {
   require("./util/postinstall", function() {
-    let genDBMigrates = require("./gen-db-migrates").default;
-    genDBMigrates();
+    run()
   });
 } else {
+  run()
+}
+
+async function run() {
   let genDBMigrates = require("./gen-db-migrates").default;
-  genDBMigrates();
+  await genDBMigrates();
+  console.log("Generated one migration");
+  process.exit(0);
 }
