@@ -82,15 +82,7 @@ export class ModelsHelper {
             modelsTree[model][attribute].via = modelsTree[modelsTree[model][attribute].collection].primaryKey || "id";
           }
 
-          // db-migrate should check if intermediate table exists, then skip creating the table (ejs)
-          // this case is only for outside model collection
-          let tableAlreadyInSchema = false;
-          if (`${model}_${attribute}__${modelsTree[model][attribute].collection}_${modelsTree[model][attribute].via}` in migrationsSchema ||
-            `${modelsTree[model][attribute].collection}_${modelsTree[model][attribute].via}__${model}_${attribute}` in migrationsSchema) {
-            tableAlreadyInSchema = true;
-          }
-
-          if (!intermediateTables[`${modelsTree[model][attribute].collection}_${modelsTree[model][attribute].via}__${model}_${attribute}`] && !tableAlreadyInSchema) {
+          if (!intermediateTables[`${modelsTree[model][attribute].collection}_${modelsTree[model][attribute].via}__${model}_${attribute}`]) {
             intermediateTables[`${model}_${attribute}__${modelsTree[model][attribute].collection}_${modelsTree[model][attribute].via}`] = {
               id: {type: 'int', notNull: true, autoIncrement: true},
               [`${model}_${attribute}`]: {type: tableFieldsType},
@@ -111,6 +103,14 @@ export class ModelsHelper {
           modelsTree[model][modelsTree[model][attribute].columnName] = modelsTree[model][attribute];
           delete modelsTree[model][attribute];
         }
+      }
+
+      if (!modelsTree[model]['createdAt']) {
+        modelsTree[model]['createdAt'] = {type: "bigint"}
+      }
+
+      if (!modelsTree[model]['updatedAt']) {
+        modelsTree[model]['updatedAt'] = {type: "bigint"}
       }
     }
 

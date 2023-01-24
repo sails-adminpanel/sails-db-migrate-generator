@@ -13,16 +13,7 @@ export default class MigrationBuilder {
     this.migrationsSchema = migrationsSchema;
   }
 
-  public createTable(tableName: string, columnSpec: ModelSpec, withoutTimeFields = false): void {
-    if (!withoutTimeFields) {
-      if (!columnSpec.createdAt) {
-        columnSpec.createdAt = {type: "bigint"}
-      }
-      if (!columnSpec.updatedAt) {
-        columnSpec.updatedAt = {type: "bigint"}
-      }
-    }
-
+  public createTable(tableName: string, columnSpec: ModelSpec): void {
     this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.createTable('${tableName}', {\n` +
       `    columns: ${JSON.stringify(columnSpec, null, 4)},\n` +
       `    ifNotExists: true\n` +
