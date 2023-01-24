@@ -11,5 +11,4 @@ export default class DB {
     renameColumn(tableName: string, oldColumnName: string, newColumnName: string, callback: any): void;
     changeColumn(tableName: string, columnName: string, columnSpec: Base.ColumnSpec, callback: any): void;
     getWaterlineSchema(): IMSchema;
-    processColumn(column: Base.ColumnSpec): Base.ColumnSpec;
 }

@@ -29,7 +29,7 @@ describe('SQL builder test', function () {
     fs.copyFileSync(path.resolve(__dirname, "../datamocks/migrations/20221214142409-home-add-address.js"),
       path.resolve(__dirname, "../.tmp/migrations/20221214142409-home-add-address.js"));
 
-    let tablesTree = ModelsHelper.processTree(modelsTree, modelsPrimaryKeysTypes, migrationsSchema);
+    let tablesTree = ModelsHelper.processTree(modelsTree, modelsPrimaryKeysTypes);
     console.log("tablesTree", tablesTree)
 
     let migrationBuilder = new MigrationBuilder(migrationsSchema);

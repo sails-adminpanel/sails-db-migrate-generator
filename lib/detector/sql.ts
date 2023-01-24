@@ -13,7 +13,7 @@ export default class DB {
     this.intermediateMigrationSchema[tableName] = {};
     let columns = columnSpec.columns ? columnSpec.columns : columnSpec;
     for (let key in columns) {
-      this.intermediateMigrationSchema[tableName][key] = this.processColumn(columns[key]);
+      this.intermediateMigrationSchema[tableName][key] = columns[key];
     }
     if (typeof callback === "function") {
       callback();
@@ -21,7 +21,7 @@ export default class DB {
   }
 
   public addColumn(tableName: string, columnName: string, columnSpec: Base.ColumnSpec, callback): void {
-    this.intermediateMigrationSchema[tableName][columnName] = this.processColumn(columnSpec);
+    this.intermediateMigrationSchema[tableName][columnName] = columnSpec;
     if (typeof callback === "function") {
       callback();
     }
@@ -61,7 +61,7 @@ export default class DB {
   }
 
   public changeColumn(tableName: string, columnName: string, columnSpec: Base.ColumnSpec, callback) {
-    this.intermediateMigrationSchema[tableName][columnName] = this.processColumn(columnSpec);
+    this.intermediateMigrationSchema[tableName][columnName] = columnSpec;
     if (typeof callback === "function") {
       callback();
     }
@@ -71,18 +71,5 @@ export default class DB {
 
   public getWaterlineSchema(): IMSchema {
     return this.intermediateMigrationSchema;
-  }
-
-  public processColumn(column: Base.ColumnSpec): Base.ColumnSpec {
-    if (column.type === 'char' || column.type === 'text' || column.type === 'date' || column.type === 'datetime' ||
-      column.type === 'time' || column.type === 'blob' || column.type === 'binary') {
-      column.type = 'string';
-    }
-
-    if (column.type === 'smallint' || column.type === 'bigint' || column.type === 'int' ||
-      column.type === 'real' || column.type === 'timestamp' || column.type === 'decimal') {
-      column.type = 'number';
-    }
-    return column
   }
 }

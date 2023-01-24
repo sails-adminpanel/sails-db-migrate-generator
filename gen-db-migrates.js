@@ -52,6 +52,8 @@ async function genDBMigrates() {
     let modelsInfo = ModelsHelper_1.ModelsHelper.buildTree();
     let modelsTree = modelsInfo.modelsTree;
     let modelsPrimaryKeysTypes = modelsInfo.modelsPrimaryKeysTypes;
+    // process models to tables
+    let tablesTree = ModelsHelper_1.ModelsHelper.processTree(modelsTree, modelsPrimaryKeysTypes);
     // build migrations schema
     let migrationsPath = process.env.MIGRATIONS_PATH;
     let migrationsDir = fs.readdirSync(migrationsPath);
@@ -73,8 +75,6 @@ async function genDBMigrates() {
         }
     }
     let migrationsSchema = db.getWaterlineSchema();
-    let tablesTree = ModelsHelper_1.ModelsHelper.processTree(modelsTree, modelsPrimaryKeysTypes, migrationsSchema);
-    console.log("tablesTree", tablesTree);
     // compare models tree and migrations schema and create new migrations
     let migrationBuilder = new sql_2.default(migrationsSchema);
     for (let model in tablesTree) {

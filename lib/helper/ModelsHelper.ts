@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import {ModelsTree} from "../interfaces/types";
+import Base from "db-migrate-base";
 
 export class ModelsHelper {
   public static buildTree(): {modelsTree: ModelsTree, modelsPrimaryKeysTypes: {[key:string]: string}} {
@@ -33,7 +34,7 @@ export class ModelsHelper {
     return {modelsTree: modelsTree, modelsPrimaryKeysTypes: modelsPrimaryKeysTypes}
   }
 
-  public static processTree(modelsTree, modelsPrimaryKeysTypes, migrationsSchema): ModelsTree {
+  public static processTree(modelsTree, modelsPrimaryKeysTypes): Base.ColumnSpec {
     let intermediateTables = {};
     let optionsWhiteList = ['type', 'length', 'primaryKey', 'autoIncrement', 'notNull', 'unique', 'defaultValue', 'foreignKey', 'model', 'collection', 'via'];
 
@@ -72,7 +73,6 @@ export class ModelsHelper {
 
         // process collections
         if (modelsTree[model][attribute].collection) {
-          console.log(attribute)
           let tableFieldsType = 'string';
           if (modelsPrimaryKeysTypes[modelsTree[model][attribute].collection]) { // fields' types will be like primaryKey in related model
             tableFieldsType = modelsPrimaryKeysTypes[modelsTree[model][attribute].collection];
@@ -114,6 +114,6 @@ export class ModelsHelper {
       }
     }
 
-    return {...modelsTree, ...intermediateTables};
+    return {...modelsTree, ...intermediateTables} as Base.ColumnSpec;
   }
 }

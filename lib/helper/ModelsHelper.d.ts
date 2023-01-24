@@ -1,4 +1,5 @@
 import { ModelsTree } from "../interfaces/types";
+import Base from "db-migrate-base";
 export declare class ModelsHelper {
     static buildTree(): {
         modelsTree: ModelsTree;
@@ -6,5 +7,5 @@ export declare class ModelsHelper {
             [key: string]: string;
         };
     };
-    static processTree(modelsTree: any, modelsPrimaryKeysTypes: any, migrationsSchema: any): ModelsTree;
+    static processTree(modelsTree: any, modelsPrimaryKeysTypes: any): Base.ColumnSpec;
 }
