@@ -6,4 +6,5 @@ export declare class ModelsHelper {
             [key: string]: string;
         };
     };
+    static processTree(modelsTree: any, modelsPrimaryKeysTypes: any, migrationsSchema: any): ModelsTree;
 }

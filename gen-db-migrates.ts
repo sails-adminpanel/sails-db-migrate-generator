@@ -50,24 +50,27 @@ export default async function genDBMigrates(): Promise<void> {
   }
   let migrationsSchema = db.getWaterlineSchema()
 
+  let tablesTree = ModelsHelper.processTree(modelsTree, modelsPrimaryKeysTypes, migrationsSchema);
+  console.log("tablesTree", tablesTree)
+
   // compare models tree and migrations schema and create new migrations
-  let migrationBuilder = new MigrationBuilder(modelsPrimaryKeysTypes, Object.keys(modelsTree), migrationsSchema);
-  for (let model in modelsTree) {
+  let migrationBuilder = new MigrationBuilder(migrationsSchema);
+  for (let model in tablesTree) {
     try {
       if (model in migrationsSchema) {
-        for (let attribute in modelsTree[model]) {
+        for (let attribute in tablesTree[model]) {
           if (attribute in migrationsSchema[model]) {
             // check type
-            if (modelsTree[model][attribute].type !== migrationsSchema[model][attribute].type) {
-              migrationBuilder.changeColumn(model, attribute, modelsTree[model][attribute]);
+            if (tablesTree[model][attribute].type !== migrationsSchema[model][attribute].type) {
+              migrationBuilder.changeColumn(model, attribute, tablesTree[model][attribute]);
             }
             // !TODO check other options
           } else {
-            migrationBuilder.addColumn(model, attribute, modelsTree[model][attribute]);
+            migrationBuilder.addColumn(model, attribute, tablesTree[model][attribute]);
           }
         }
       } else {
-        migrationBuilder.createTable(model, modelsTree[model]);
+        migrationBuilder.createTable(model, tablesTree[model]);
       }
     } catch (e) {
       console.log(e);
@@ -76,11 +79,11 @@ export default async function genDBMigrates(): Promise<void> {
   }
 
   for (let model in migrationsSchema) {
-    if (!(model in modelsTree)) {
+    if (!(model in tablesTree)) {
       migrationBuilder.dropTable(model)
     } else {
       for (let attribute in migrationsSchema[model]) {
-        if (!(attribute in modelsTree[model])) {
+        if (!(attribute in tablesTree[model])) {
           migrationBuilder.removeColumn(model, attribute)
         }
       }

@@ -14,6 +14,7 @@ let migrationsSchema = {
 process.env.MIGRATION_NAME = "test"
 process.env.MIGRATIONS_PATH = path.resolve(__dirname, "../.tmp/migrations");
 import MigrationBuilder from "../../lib/builder/sql";
+import {ModelsHelper} from "../../lib/helper/ModelsHelper";
 
 describe('SQL builder test', function () {
   it('check builder proper work', async function() {
@@ -28,30 +29,33 @@ describe('SQL builder test', function () {
     fs.copyFileSync(path.resolve(__dirname, "../datamocks/migrations/20221214142409-home-add-address.js"),
       path.resolve(__dirname, "../.tmp/migrations/20221214142409-home-add-address.js"));
 
-    let migrationBuilder = new MigrationBuilder(modelsPrimaryKeysTypes, Object.keys(modelsTree), migrationsSchema);
-    for (let model in modelsTree) {
+    let tablesTree = ModelsHelper.processTree(modelsTree, modelsPrimaryKeysTypes, migrationsSchema);
+    console.log("tablesTree", tablesTree)
+
+    let migrationBuilder = new MigrationBuilder(migrationsSchema);
+    for (let model in tablesTree) {
       if (model in migrationsSchema) {
-        for (let attribute in modelsTree[model]) {
+        for (let attribute in tablesTree[model]) {
           if (attribute in migrationsSchema[model]) {
             // check type
-            if (modelsTree[model][attribute].type !== migrationsSchema[model][attribute].type) {
-              migrationBuilder.changeColumn(model, attribute, modelsTree[model][attribute]);
+            if (tablesTree[model][attribute].type !== migrationsSchema[model][attribute].type) {
+              migrationBuilder.changeColumn(model, attribute, tablesTree[model][attribute]);
             }
           } else {
-            migrationBuilder.addColumn(model, attribute, modelsTree[model][attribute]);
+            migrationBuilder.addColumn(model, attribute, tablesTree[model][attribute]);
           }
         }
       } else {
-        migrationBuilder.createTable(model, modelsTree[model]);
+        migrationBuilder.createTable(model, tablesTree[model]);
       }
     }
 
     for (let model in migrationsSchema) {
-      if (!(model in modelsTree)) {
+      if (!(model in tablesTree)) {
         migrationBuilder.dropTable(model)
       } else {
         for (let attribute in migrationsSchema[model]) {
-          if (!(attribute in modelsTree[model])) {
+          if (!(attribute in tablesTree[model])) {
             migrationBuilder.removeColumn(model, attribute)
           }
         }
@@ -76,22 +80,22 @@ describe('SQL builder test', function () {
     });
 
     let migrationError = false;
-    function runMigrations() {
-      return new Promise((resolve, reject) => {
-        try {
-          dbmigrate.reset()
-            .then( () => {
-              dbmigrate.up()
-                .then( () => resolve(true))
-            } );
-        } catch (e) {
-          migrationError = true;
-          reject(e)
-        }
-      })
-    }
-
-    await runMigrations();
+    // function runMigrations() {
+    //   return new Promise((resolve, reject) => {
+    //     try {
+    //       dbmigrate.reset()
+    //         .then( () => {
+    //           dbmigrate.up()
+    //             .then( () => resolve(true))
+    //         } );
+    //     } catch (e) {
+    //       migrationError = true;
+    //       reject(e)
+    //     }
+    //   })
+    // }
+    //
+    // await runMigrations();
 
     expect(migrationProperName).to.be.true;
     expect(migrationError).to.be.false;

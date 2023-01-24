@@ -3,31 +3,17 @@ import * as ejs from "ejs";
 import * as path from "path";
 import Base from "db-migrate-base";
 import {AttributeSpec, ModelSpec} from "../interfaces/types";
-let optionsWhiteList = ['type', 'length', 'primaryKey', 'autoIncrement', 'notNull', 'unique', 'defaultValue', 'foreignKey'];
 
 export default class MigrationBuilder {
   private migrationsBuild: string;
-  private readonly modelsPrimaryKeysTypes: {[key:string]: string};
-  private modelsList: string[];
-  private migrationsSchema;
+  private readonly migrationsSchema;
 
-  constructor(modelsPrimaryKeysTypes, modelsList, migrationsSchema) {
+  constructor(migrationsSchema) {
     this.migrationsBuild = "";
-    this.modelsPrimaryKeysTypes = modelsPrimaryKeysTypes;
-    this.modelsList = modelsList;
     this.migrationsSchema = migrationsSchema;
   }
 
   public createTable(tableName: string, columnSpec: ModelSpec, withoutTimeFields = false): void {
-    for (let column in columnSpec) {
-      let processedColumnName = this.processColumnName(column, columnSpec[column]);
-      columnSpec[column] = this.processColumnSpec(tableName, processedColumnName, columnSpec[column]);
-      // do not create a migration if field is an association
-      if (columnSpec[column] === null) {
-        delete columnSpec[column]
-      }
-    }
-
     if (!withoutTimeFields) {
       if (!columnSpec.createdAt) {
         columnSpec.createdAt = {type: "bigint"}
@@ -44,23 +30,11 @@ export default class MigrationBuilder {
   }
 
   public addColumn(tableName: string, columnName: string, columnSpec: AttributeSpec): void {
-    let processedColumnName = this.processColumnName(columnName, columnSpec);
-    columnSpec = this.processColumnSpec(tableName, columnName, columnSpec);
-    // do not create a migration if field is an association
-    if (columnSpec === null) {
-      return
-    }
-    this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.addColumn('${tableName}', '${processedColumnName}', ${JSON.stringify(columnSpec)}, cb),\n`);
+    this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.addColumn('${tableName}', '${columnName}', ${JSON.stringify(columnSpec)}, cb),\n`);
   }
 
   public changeColumn(tableName: string, columnName: string, columnSpec: AttributeSpec): void {
-    let processedColumnName = this.processColumnName(columnName, columnSpec);
-    columnSpec = this.processColumnSpec(tableName, columnName, columnSpec);
-    // do not create a migration if field is an association
-    if (columnSpec === null) {
-      return
-    }
-    this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.changeColumn('${tableName}', '${processedColumnName}', ${JSON.stringify(columnSpec)}, cb),\n`);
+    this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.changeColumn('${tableName}', '${columnName}', ${JSON.stringify(columnSpec)}, cb),\n`);
   }
 
   public dropTable(tableName: string): void {
@@ -69,87 +43,6 @@ export default class MigrationBuilder {
 
   public removeColumn(tableName: string, columnName: string): void {
     this.migrationsBuild = this.migrationsBuild.concat(`(cb) => db.removeColumn('${tableName}', '${columnName}', cb),\n`);
-  }
-
-  public processColumnName(columnName: string, columnSpec: AttributeSpec): string {
-    for (let key in columnSpec) {
-      if (key === 'columnName') {
-        columnName = columnSpec[key];
-      }
-    }
-    return columnName;
-  }
-
-  public processColumnSpec(tableName: string, columnName: string, columnSpec: AttributeSpec): Base.ColumnSpec {
-    // process collections
-    if (columnSpec.collection) {
-      // if (!this.modelsList.includes(columnSpec.collection)) {
-      //   throw `Model ${tableName} has an association to model ${columnSpec.collection}, but model ${columnSpec.collection} is not presented in models tree`;
-      // }
-
-      // !TODO если нету columnSpec.via, то columnSpec.via = this.modelsPrimaryKeysTypes[columnSpec.collection];
-
-      let tableFieldsType = 'string';
-      if (this.modelsPrimaryKeysTypes[columnSpec.collection]) { // fields' types will be like primaryKey in related model
-        tableFieldsType = this.modelsPrimaryKeysTypes[columnSpec.collection];
-      }
-      // db-migrate should check if intermediate table exists, then skip creating the table (ejs)
-      // this case is only for outside model collection
-      let tableAlreadyInSchema = false;
-      if (`${tableName}_${columnName}__${columnSpec.collection}_${columnSpec.via}` in this.migrationsSchema ||
-        `${columnSpec.collection}_${columnSpec.via}__${tableName}_${columnName}` in this.migrationsSchema) {
-        tableAlreadyInSchema = true;
-      }
-      if (!this.migrationsBuild.includes(`${columnSpec.collection}_${columnSpec.via}__${tableName}_${columnName}`) && !tableAlreadyInSchema) {
-        this.createTable(`${tableName}_${columnName}__${columnSpec.collection}_${columnSpec.via}`, {
-          id: {type: 'int', notNull: true, autoIncrement: true},
-          [`${tableName}_${columnName}`]: {type: tableFieldsType},
-          [`${columnSpec.collection}_${columnSpec.via}`]: {type: tableFieldsType}
-        }, true)
-      }
-
-      return null; // do not create a migration to this field
-    }
-
-    if (columnSpec.model) {
-      return null; // do not create a migration to this field
-    }
-
-    // if (columnSpec.model && !this.modelsList.includes(columnSpec.model)) {
-    //   throw `Model ${tableName} has an association to model ${columnSpec.model}, but model ${columnSpec.model} is not presented in models tree`;
-    // }
-
-    // process columnSpec options
-    for (let key in columnSpec) {
-      if (key === 'defaultsTo') {
-        columnSpec['defaultValue'] = columnSpec[key];
-      }
-
-      if (key === 'allowNull') {
-        columnSpec['notNull'] = !columnSpec[key];
-      }
-
-      if (key === 'columnType') {
-        columnSpec.type = columnSpec[key];
-      }
-
-      // delete all non-db-migrate options
-      if (!optionsWhiteList.includes(key)) {
-        delete columnSpec[key]
-      }
-    }
-
-    // process number to real (createdAt and updatedAt to bigint)
-    if (columnSpec.type === 'number') {
-      if (columnName === 'createdAt' || columnName === 'updatedAt') {
-        columnSpec.type = 'bigint';
-      } else if (columnSpec.autoIncrement) {
-        columnSpec.type = 'int'
-      } else {
-        columnSpec.type = 'real';
-      }
-    }
-    return columnSpec as Base.ColumnSpec
   }
 
   public renderFile(): void {
