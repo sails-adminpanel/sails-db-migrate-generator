@@ -37,6 +37,11 @@ export default class MigrationBuilder {
   }
 
   public renderFile(): void {
+    if (this.migrationsBuild === "") {
+      console.log("Migration is empty, all models are up to date. Migration file was not created.")
+      return
+    }
+
     let date = new Date();
     let fileName = `${date.getFullYear()}${pad2(date.getMonth() + 1)}${pad2(date.getDate())}${pad2(date.getHours())}${pad2(date.getMinutes())}${pad2(date.getSeconds())}-${process.env.MIGRATION_NAME}`;
 
@@ -46,6 +51,7 @@ export default class MigrationBuilder {
       } else {
         // console.log(data);
         fs.writeFileSync(`${process.env.MIGRATIONS_PATH}/${fileName}.js`, data);
+        console.log(`Migration file was created, check out ${process.env.MIGRATIONS_PATH}/${fileName}.js`);
       }
     })
   }

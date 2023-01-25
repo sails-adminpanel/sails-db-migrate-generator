@@ -50,7 +50,10 @@ $ sails generate migration migration-label --modelsPath="./models" --migrationsP
 ```sh
 $ npm i -g sails-db-migrate-generator
 ```
-Then you can call `sails-migrate` with parameters from [usage](#usage)
+Then you can call `sails-migrate` with parameters from [usage](#usage).
+In this case parameter `modelsPath` will be `./models` by default. You can
+also use parameters `-h` or `--help` to see short usage instruction and
+`-v` or `--version` to see the current version of the product.
 
 ## Testing
 ```bash

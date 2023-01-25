@@ -24,11 +24,11 @@ describe('SQL detector test', function () {
     }
 
     let migrationsSchema = db.getWaterlineSchema()
-    // expect(migrationsSchema).to.deep.equal({
-    //   home: {
-    //     id: { type: 'number', primaryKey: true, autoIncrement: true },
-    //     address: { type: 'string' }
-    //   }
-    // });
+    expect(migrationsSchema).to.deep.equal({
+      home: {
+        id: { type: 'int', primaryKey: true, autoIncrement: true },
+        address: { type: 'string' }
+      }
+    });
   });
 });

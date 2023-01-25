@@ -4,21 +4,30 @@ let path = require("path");
 let cwd = process.cwd();
 process.chdir(cwd);
 
-// !TODO вывести --help и --version
-// !TODO если миграция пустая, выходить и писать что миграция не нужна
-
-if (!process.env.MODELS_PATH || !process.env.MIGRATIONS_PATH || !process.env.MIGRATION_NAME) {
-  for (let i = 0; i < process.argv.length; i++) {
-    if (!process.env.MIGRATION_NAME && ((process.argv[i].endsWith("bin") || process.argv[i].endsWith("sails-migrate"))
-      && (i+1 < process.argv.length) && !process.argv[i+1].startsWith("--"))) {
-      process.env.MIGRATION_NAME = process.argv[i+1];
-    }
-    if (!process.env.MODELS_PATH && process.argv[i].startsWith("--modelsPath")) {
-      process.env.MODELS_PATH = process.argv[i].split("=")[1];
-    }
-    if (!process.env.MIGRATIONS_PATH && process.argv[i].startsWith("--migrationsPath")) {
-      process.env.MIGRATIONS_PATH = process.argv[i].split("=")[1];
-    }
+for (let i = 0; i < process.argv.length; i++) {
+  if (process.argv[i] === "-h" || process.argv[i] === "--help") {
+    console.log("To generate migration use the following command:\n" +
+      "\nsails migrate migration-label --modelsPath=\"./models\" --migrationsPath=\"./migrations\n" +
+      "\nParameters:\n" +
+      "- migration-label (optional), default: \"migrations-generator-processed\"\n" +
+      "- migrationsPath (optional), default: \"./migrations\"\n" +
+      "- modelsPath (optional), default: \"./models\"")
+    process.exit(0);
+  }
+  if (process.argv[i] === "-v" || process.argv[i] === "--version") {
+    let packageJSON = require(path.resolve(__dirname, "./package.json"));
+    console.log(packageJSON.version);
+    process.exit(0);
+  }
+  if (!process.env.MIGRATION_NAME && ((process.argv[i].endsWith("bin") || process.argv[i].endsWith("sails-migrate"))
+    && (i+1 < process.argv.length) && !process.argv[i+1].startsWith("--"))) {
+    process.env.MIGRATION_NAME = process.argv[i+1];
+  }
+  if (!process.env.MODELS_PATH && process.argv[i].startsWith("--modelsPath")) {
+    process.env.MODELS_PATH = process.argv[i].split("=")[1];
+  }
+  if (!process.env.MIGRATIONS_PATH && process.argv[i].startsWith("--migrationsPath")) {
+    process.env.MIGRATIONS_PATH = process.argv[i].split("=")[1];
   }
 }
 
@@ -54,6 +63,5 @@ if (!fs.existsSync(path.resolve(__dirname, "./fixture/node_modules"))) {
 async function run() {
   let genDBMigrates = require("./gen-db-migrates").default;
   await genDBMigrates();
-  console.log("Generated one migration");
   process.exit(0);
 }
