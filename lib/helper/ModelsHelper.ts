@@ -75,7 +75,11 @@ export class ModelsHelper {
         if (modelsTree[model][attribute].collection) {
           let tableFieldsType = 'string';
           if (modelsPrimaryKeysTypes[modelsTree[model][attribute].collection]) { // fields' types will be like primaryKey in related model
-            tableFieldsType = modelsPrimaryKeysTypes[modelsTree[model][attribute].collection];
+            if (modelsPrimaryKeysTypes[modelsTree[model][attribute].collection] === "number") {
+              tableFieldsType = "bigint";
+            } else {
+              tableFieldsType = modelsPrimaryKeysTypes[modelsTree[model][attribute].collection];
+            }
           }
 
           if (!modelsTree[model][attribute].via) {
