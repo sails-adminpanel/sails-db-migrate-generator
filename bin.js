@@ -24,10 +24,10 @@ for (let i = 0; i < process.argv.length; i++) {
     process.env.MIGRATION_NAME = process.argv[i+1];
   }
   if (!process.env.MODELS_PATH && process.argv[i].startsWith("--modelsPath")) {
-    process.env.MODELS_PATH = process.argv[i].split("=")[1];
+    process.env.MODELS_PATH = fs.resolve(process.cwd(),process.argv[i].split("=")[1]);
   }
   if (!process.env.MIGRATIONS_PATH && process.argv[i].startsWith("--migrationsPath")) {
-    process.env.MIGRATIONS_PATH = process.argv[i].split("=")[1];
+    process.env.MIGRATIONS_PATH = fs.resolve(process.cwd(), process.argv[i].split("=")[1]);
   }
 }
 
@@ -37,6 +37,7 @@ if (!process.env.MIGRATION_NAME) {
 
 if (!process.env.MODELS_PATH) {
   process.env.MODELS_PATH = `${process.cwd()}/models`;
+  if (!fs.existsSync(process.env.MODELS_PATH)) process.env.MODELS_PATH = `${process.cwd()}/api/models` 
 }
 
 if (!process.env.MIGRATIONS_PATH) {
