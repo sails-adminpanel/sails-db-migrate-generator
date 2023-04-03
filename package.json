@@ -35,16 +35,14 @@
     "@types/mocha": "^8.0.2",
     "@types/node": "^14.17.11",
     "chai": "^4.3.4",
-    "db-migrate-sqlite3": "git+https://github.com/DeanMauro/sqlite.git",
     "eslint": "5.16.0",
     "mocha": "^8.1.1",
-    "sqlite3": "^5.1.4",
     "ts-node": "^8.10.2",
     "typescript": "^4.9.4"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com//sails-db-migrate-generator.git"
+    "url": "https://github.com/sails-adminpanel/sails-db-migrate-generator.git"
   },
   "sailsGenerator": {
     "type": "sails-db-migrate-generator",
