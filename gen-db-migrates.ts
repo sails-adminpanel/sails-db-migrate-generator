@@ -7,6 +7,7 @@ import {ModelsHelper} from "./lib/helper/ModelsHelper";
 // preparation to get Sails environment
 let Sails = require(path.resolve(__dirname, "./fixture/node_modules/sails")).Sails;
 function runSails() {
+  require("./fixture/app-export");
   return new Promise((resolve, reject) => {
     Sails().lift({}, function (err: any, _sails: any) {
       if (err) {
