@@ -35,7 +35,6 @@ const ModelsHelper_1 = require("./lib/helper/ModelsHelper");
 let Sails = require(path.resolve(__dirname, "./fixture/node_modules/sails")).Sails;
 function runSails() {
     return new Promise((resolve, reject) => {
-        require("./fixture/app-export");
         Sails().lift({}, function (err, _sails) {
             if (err) {
                 throw err;
