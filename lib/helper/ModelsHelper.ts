@@ -74,23 +74,26 @@ export class ModelsHelper {
         // process collections
         if (modelsTree[model][attribute].collection) {
           let tableFieldsType = 'string';
-          if (modelsPrimaryKeysTypes[modelsTree[model][attribute].collection]) { // fields' types will be like primaryKey in related model
-            if (modelsPrimaryKeysTypes[modelsTree[model][attribute].collection] === "number") {
+          let attributeCollection = modelsTree[model][attribute].collection.toLowerCase();
+          if (modelsPrimaryKeysTypes[attributeCollection]) { // fields' types will be like primaryKey in related model (and they will be in lowerCase)
+            if (modelsPrimaryKeysTypes[attributeCollection] === "number") {
               tableFieldsType = "bigint";
             } else {
-              tableFieldsType = modelsPrimaryKeysTypes[modelsTree[model][attribute].collection];
+              tableFieldsType = modelsPrimaryKeysTypes[attributeCollection];
             }
           }
 
           if (!modelsTree[model][attribute].via) {
-            modelsTree[model][attribute].via = modelsTree[modelsTree[model][attribute].collection].primaryKey || "id";
+            modelsTree[model][attribute].via = modelsTree[attributeCollection].primaryKey || "id";
           }
 
-          if (!intermediateTables[`${modelsTree[model][attribute].collection}_${modelsTree[model][attribute].via}__${model}_${attribute}`]) {
-            intermediateTables[`${model}_${attribute}__${modelsTree[model][attribute].collection}_${modelsTree[model][attribute].via}`] = {
+          let attributeViaInSnake = camelToSnake(modelsTree[model][attribute].via);
+          let attributeCollectionInSnake = camelToSnake(modelsTree[model][attribute].collection);
+          if (!intermediateTables[`${attributeCollectionInSnake}_${attributeViaInSnake}__${model}_${attribute}`]) {
+            intermediateTables[`${model}_${attribute}__${attributeCollectionInSnake}_${attributeViaInSnake}`] = {
               id: {type: 'int', notNull: true, autoIncrement: true},
               [`${model}_${attribute}`]: {type: tableFieldsType},
-              [`${modelsTree[model][attribute].collection}_${modelsTree[model][attribute].via}`]: {type: tableFieldsType}
+              [`${attributeCollectionInSnake}_${attributeViaInSnake}`]: {type: tableFieldsType}
             }
           }
 
@@ -121,3 +124,9 @@ export class ModelsHelper {
     return {...modelsTree, ...intermediateTables} as Base.ColumnSpec;
   }
 }
+
+// to transform fields like: ThisIsCamelCase => this_is_camel_case or thisIsCamelCase => this_is_camel_case
+function camelToSnake(str) {
+  return str.replace(/([A-Z])/g, match => "_" + match.toLowerCase()).replace(/^_/, '');
+}
+
