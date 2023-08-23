@@ -75,6 +75,7 @@ export class ModelsHelper {
         if (modelsTree[model][attribute].collection) {
           let tableFieldsType = 'string';
           let attributeCollection = modelsTree[model][attribute].collection.toLowerCase();
+          let attributeVia = modelsTree[model][attribute].via;
           if (modelsPrimaryKeysTypes[attributeCollection]) { // fields' types will be like primaryKey in related model (and they will be in lowerCase)
             if (modelsPrimaryKeysTypes[attributeCollection] === "number") {
               tableFieldsType = "bigint";
@@ -87,13 +88,11 @@ export class ModelsHelper {
             modelsTree[model][attribute].via = modelsTree[attributeCollection].primaryKey || "id";
           }
 
-          let attributeViaInSnake = camelToSnake(modelsTree[model][attribute].via);
-          let attributeCollectionInSnake = camelToSnake(modelsTree[model][attribute].collection);
-          if (!intermediateTables[`${attributeCollectionInSnake}_${attributeViaInSnake}__${model}_${attribute}`]) {
-            intermediateTables[`${model}_${attribute}__${attributeCollectionInSnake}_${attributeViaInSnake}`] = {
+          if (!intermediateTables[`${attributeCollection}_${attributeVia}__${model}_${attribute}`.toLowerCase()]) {
+            intermediateTables[`${model}_${attribute}__${attributeCollection}_${attributeVia}`.toLowerCase()] = {
               id: {type: 'int', notNull: true, autoIncrement: true},
               [`${model}_${attribute}`]: {type: tableFieldsType},
-              [`${attributeCollectionInSnake}_${attributeViaInSnake}`]: {type: tableFieldsType}
+              [`${attributeCollection}_${attributeVia}`]: {type: tableFieldsType}
             }
           }
 
