@@ -60,6 +60,9 @@ also use parameters `-h` or `--help` to see short usage instruction and
 $ npm run test
 ```
 
+## TODO
+- skip creating intermediate table for one-to-many association
+
 
 ## Need help?
 
