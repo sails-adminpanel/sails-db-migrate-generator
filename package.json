@@ -1,6 +1,6 @@
 {
   "name": "sails-db-migrate-generator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "sails generator to generate migrations",
   "main": "index.js",
   "scripts": {
