@@ -7,5 +7,7 @@ export declare class ModelsHelper {
             [key: string]: string;
         };
     };
-    static processTree(modelsTree: any, modelsPrimaryKeysTypes: any): Base.ColumnSpec;
+    static processTree(modelsTree: ModelsTree, modelsPrimaryKeysTypes: {
+        [key: string]: string;
+    }): Base.ColumnSpec;
 }

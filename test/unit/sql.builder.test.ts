@@ -101,6 +101,7 @@ describe('SQL builder test', function () {
     expect(migrationBuilder.getMigrationsBuild()).to.equal("(cb) => db.changeColumn('home', 'id', {\"type\":\"int\",\"autoIncrement\":true,\"primaryKey\":true}, cb),\n" +
       "(cb) => db.addColumn('home', 'location', {\"type\":\"json\"}, cb),\n" +
       "(cb) => db.addColumn('home', 'livingSpace', {\"type\":\"real\"}, cb),\n" +
+      "(cb) => db.addColumn('home', 'owner', {\"type\":\"string\"}, cb),\n" +
       "(cb) => db.addColumn('home', 'createdAt', {\"type\":\"bigint\"}, cb),\n" +
       "(cb) => db.addColumn('home', 'updatedAt', {\"type\":\"bigint\"}, cb),\n" +
       "(cb) => db.createTable('pet', {\n" +
@@ -113,6 +114,9 @@ describe('SQL builder test', function () {
       "    },\n" +
       "    \"name\": {\n" +
       "        \"type\": \"string\"\n" +
+      "    },\n" +
+      "    \"home\": {\n" +
+      "        \"type\": \"bigint\"\n" +
       "    },\n" +
       "    \"createdAt\": {\n" +
       "        \"type\": \"bigint\"\n" +
@@ -143,43 +147,14 @@ describe('SQL builder test', function () {
       "        \"type\": \"string\",\n" +
       "        \"unique\": true\n" +
       "    },\n" +
+      "    \"home\": {\n" +
+      "        \"type\": \"bigint\"\n" +
+      "    },\n" +
       "    \"createdAt\": {\n" +
       "        \"type\": \"bigint\"\n" +
       "    },\n" +
       "    \"updatedAt\": {\n" +
       "        \"type\": \"bigint\"\n" +
-      "    }\n" +
-      "},\n" +
-      "    ifNotExists: true\n" +
-      "  }, cb),\n" +
-      "(cb) => db.createTable('home_pets__pet_home', {\n" +
-      "    columns: {\n" +
-      "    \"id\": {\n" +
-      "        \"type\": \"int\",\n" +
-      "        \"notNull\": true,\n" +
-      "        \"autoIncrement\": true\n" +
-      "    },\n" +
-      "    \"home_pets\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    },\n" +
-      "    \"pet_home\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    }\n" +
-      "},\n" +
-      "    ifNotExists: true\n" +
-      "  }, cb),\n" +
-      "(cb) => db.createTable('home_tenants__user_home', {\n" +
-      "    columns: {\n" +
-      "    \"id\": {\n" +
-      "        \"type\": \"int\",\n" +
-      "        \"notNull\": true,\n" +
-      "        \"autoIncrement\": true\n" +
-      "    },\n" +
-      "    \"home_tenants\": {\n" +
-      "        \"type\": \"string\"\n" +
-      "    },\n" +
-      "    \"user_home\": {\n" +
-      "        \"type\": \"string\"\n" +
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
