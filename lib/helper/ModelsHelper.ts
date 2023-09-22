@@ -58,6 +58,11 @@ export class ModelsHelper {
           }
         }
 
+        // process string to text
+        if (modelsTree[model][attribute].type === 'string') {
+          modelsTree[model][attribute].type = 'text';
+        }
+
         // process attribute options
         for (let key in modelsTree[model][attribute]) {
           if (key === 'defaultsTo') {
@@ -80,8 +85,8 @@ export class ModelsHelper {
 
         // process collections
         if (modelsTree[model][attribute].collection) {
-          let collectionPrimaryKeyType = 'string';
-          let modelPrimaryKeyType = "string";
+          let collectionPrimaryKeyType = 'int';
+          let modelPrimaryKeyType = "int";
           let attributeCollection = modelsTree[model][attribute].collection.toLowerCase();
           if (modelsPrimaryKeysTypes[attributeCollection]) { // type will be like primaryKey in related model (and they will be in lowerCase)
             if (modelsPrimaryKeysTypes[attributeCollection] === "number") {
@@ -127,7 +132,7 @@ export class ModelsHelper {
 
         if (modelsTree[model][attribute].model) {
           // type will be like primaryKey in related model or string
-          let modelPrimaryKeyType = "string";
+          let modelPrimaryKeyType = "int";
 
           if (modelsPrimaryKeysTypes[modelsTree[model][attribute].model]) {
             if (modelsPrimaryKeysTypes[modelsTree[model][attribute].model] === "number") {
@@ -175,10 +180,7 @@ function getCollectionAssociationType(modelsTree: ModelsTree, collection: string
 
   if (modelsTree[collection][via].collection) {
     return "many-to-many"
-  } else if (modelsTree[collection][via].model) {
-    return "one-to-many"
   } else {
-    throw `Collection error: Invalid model ${collection}`
+    return "one-to-many"
   }
 }
-

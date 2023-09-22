@@ -4,11 +4,11 @@ import * as DBMigrate from 'db-migrate';
 let modelsTree = require("../datamocks/modelsTree.json");
 import * as fs from "fs";
 import * as process from "process";
-let modelsPrimaryKeysTypes = {"home": "number", "user": "string"};
+let modelsPrimaryKeysTypes = {"home": "number", "user": "text"};
 let migrationsSchema = {
   home: {
     id: { type: 'number', primaryKey: true, autoIncrement: true },
-    address: { type: 'string' }
+    address: { type: 'text' }
   }
 }
 process.env.MIGRATION_NAME = "test"
@@ -101,19 +101,19 @@ describe('SQL builder test', function () {
     expect(migrationBuilder.getMigrationsBuild()).to.equal("(cb) => db.changeColumn('home', 'id', {\"type\":\"int\",\"autoIncrement\":true,\"primaryKey\":true}, cb),\n" +
       "(cb) => db.addColumn('home', 'location', {\"type\":\"json\"}, cb),\n" +
       "(cb) => db.addColumn('home', 'livingSpace', {\"type\":\"real\"}, cb),\n" +
-      "(cb) => db.addColumn('home', 'owner', {\"type\":\"string\"}, cb),\n" +
+      "(cb) => db.addColumn('home', 'owner', {\"type\":\"text\"}, cb),\n" +
       "(cb) => db.addColumn('home', 'createdAt', {\"type\":\"bigint\"}, cb),\n" +
       "(cb) => db.addColumn('home', 'updatedAt', {\"type\":\"bigint\"}, cb),\n" +
       "(cb) => db.createTable('pet', {\n" +
       "    columns: {\n" +
       "    \"breed\": {\n" +
-      "        \"type\": \"string\"\n" +
+      "        \"type\": \"text\"\n" +
       "    },\n" +
       "    \"type\": {\n" +
-      "        \"type\": \"string\"\n" +
+      "        \"type\": \"text\"\n" +
       "    },\n" +
       "    \"name\": {\n" +
-      "        \"type\": \"string\"\n" +
+      "        \"type\": \"text\"\n" +
       "    },\n" +
       "    \"home\": {\n" +
       "        \"type\": \"bigint\"\n" +
@@ -130,21 +130,21 @@ describe('SQL builder test', function () {
       "(cb) => db.createTable('user', {\n" +
       "    columns: {\n" +
       "    \"id\": {\n" +
-      "        \"type\": \"string\",\n" +
+      "        \"type\": \"text\",\n" +
       "        \"primaryKey\": true\n" +
       "    },\n" +
       "    \"firstName\": {\n" +
-      "        \"type\": \"string\"\n" +
+      "        \"type\": \"text\"\n" +
       "    },\n" +
       "    \"lastName\": {\n" +
-      "        \"type\": \"string\"\n" +
+      "        \"type\": \"text\"\n" +
       "    },\n" +
       "    \"age\": {\n" +
       "        \"type\": \"int\",\n" +
       "        \"autoIncrement\": true\n" +
       "    },\n" +
       "    \"email\": {\n" +
-      "        \"type\": \"string\",\n" +
+      "        \"type\": \"text\",\n" +
       "        \"unique\": true\n" +
       "    },\n" +
       "    \"home\": {\n" +
@@ -167,10 +167,10 @@ describe('SQL builder test', function () {
       "        \"autoIncrement\": true\n" +
       "    },\n" +
       "    \"pet_owners\": {\n" +
-      "        \"type\": \"string\"\n" +
+      "        \"type\": \"int\"\n" +
       "    },\n" +
       "    \"user_pets\": {\n" +
-      "        \"type\": \"string\"\n" +
+      "        \"type\": \"text\"\n" +
       "    }\n" +
       "},\n" +
       "    ifNotExists: true\n" +
