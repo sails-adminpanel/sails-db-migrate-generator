@@ -117,7 +117,7 @@ export class ModelsHelper {
             if (associationType === "many-to-many") {
               // create intermediate table for many-to-many association
               intermediateTables[`${model}_${attribute}__${attributeCollection}_${attributeVia}`.toLowerCase()] = {
-                id: {type: 'int', notNull: true, autoIncrement: true},
+                id: {type: 'int', autoIncrement: true},
                 [`${model}_${attribute}`]: {type: modelPrimaryKeyType},
                 [`${attributeCollection}_${attributeVia}`]: {type: collectionPrimaryKeyType}
               }
