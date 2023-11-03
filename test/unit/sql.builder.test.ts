@@ -163,7 +163,6 @@ describe('SQL builder test', function () {
       "    columns: {\n" +
       "    \"id\": {\n" +
       "        \"type\": \"int\",\n" +
-      "        \"notNull\": true,\n" +
       "        \"autoIncrement\": true\n" +
       "    },\n" +
       "    \"pet_owners\": {\n" +
