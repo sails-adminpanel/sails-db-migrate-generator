@@ -2,6 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import {ModelsTree} from "../interfaces/types";
 import Base from "db-migrate-base";
+const globalPrimaryKey = process.env.GLOBAL_PRIMARY_KEY ? process.env.GLOBAL_PRIMARY_KEY : "id";
+const globalPrimaryKeyType = process.env.GLOBAL_PRIMARY_KEY_TYPE ? process.env.GLOBAL_PRIMARY_KEY_TYPE : "int";
 
 export class ModelsHelper {
   public static buildTree(): {modelsTree: ModelsTree, modelsPrimaryKeysTypes: {[key:string]: string}} {
@@ -27,6 +29,12 @@ export class ModelsHelper {
           model.attributes[model.primaryKey].primaryKey = true;
           modelsPrimaryKeysTypes[path.basename(modelFile, path.extname(modelFile)).toLowerCase()] = model.attributes[model.primaryKey].type;
         }
+
+        // if primary key was not found in model, use globalPrimaryKey
+        if (!modelsPrimaryKeysTypes[path.basename(modelFile, path.extname(modelFile)).toLowerCase()] && model.attributes[globalPrimaryKey]) {
+          modelsPrimaryKeysTypes[path.basename(modelFile, path.extname(modelFile)).toLowerCase()] = model.attributes[globalPrimaryKey].type;
+        }
+
         modelsTree[path.basename(modelFile, path.extname(modelFile)).toLowerCase()] = model.attributes;
       }
     }
@@ -85,8 +93,8 @@ export class ModelsHelper {
 
         // process collections
         if (modelsTree[model][attribute].collection) {
-          let collectionPrimaryKeyType = 'int';
-          let modelPrimaryKeyType = "int";
+          let collectionPrimaryKeyType = globalPrimaryKeyType;
+          let modelPrimaryKeyType = globalPrimaryKeyType;
           let attributeCollection = modelsTree[model][attribute].collection.toLowerCase();
           if (modelsPrimaryKeysTypes[attributeCollection]) { // type will be like primaryKey in related model (and they will be in lowerCase)
             if (modelsPrimaryKeysTypes[attributeCollection] === "number") {
