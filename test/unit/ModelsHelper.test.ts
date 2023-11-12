@@ -8,6 +8,6 @@ describe('Models helper test', function () {
   it('buildTree method check', async function() {
     let result = ModelsHelper.buildTree();
     expect(result.modelsTree).to.deep.equal(modelsTree)
-    expect(result.modelsPrimaryKeysTypes).to.deep.equal({home: 'number', user: 'string'})
+    expect(result.modelsPrimaryKeysTypes).to.deep.equal({home: 'bigint', user: 'text'})
   });
 });

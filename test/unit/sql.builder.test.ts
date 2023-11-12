@@ -4,7 +4,7 @@ import * as DBMigrate from 'db-migrate';
 let modelsTree = require("../datamocks/modelsTree.json");
 import * as fs from "fs";
 import * as process from "process";
-let modelsPrimaryKeysTypes = {"home": "number", "user": "text"};
+let modelsPrimaryKeysTypes = {"home": "bigint", "user": "text"};
 let migrationsSchema = {
   home: {
     id: { type: 'number', primaryKey: true, autoIncrement: true },

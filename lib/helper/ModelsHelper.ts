@@ -39,6 +39,16 @@ export class ModelsHelper {
       }
     }
 
+    // process modelsPrimaryKeysTypes after collecting them
+    for (let model in modelsPrimaryKeysTypes) {
+      if (modelsPrimaryKeysTypes[model] === "string") {
+        modelsPrimaryKeysTypes[model] = "text"
+      }
+      if (modelsPrimaryKeysTypes[model] === "number") {
+        modelsPrimaryKeysTypes[model] = "bigint"
+      }
+    }
+
     return {modelsTree: modelsTree, modelsPrimaryKeysTypes: modelsPrimaryKeysTypes}
   }
 
