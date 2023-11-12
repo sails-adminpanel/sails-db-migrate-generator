@@ -140,7 +140,7 @@ export class ModelsHelper {
 
         if (modelsTree[model][attribute].model) {
           // type will be like primaryKey in related model or string
-          let modelPrimaryKeyType = "int";
+          let modelPrimaryKeyType = globalPrimaryKeyType;
 
           if (modelsPrimaryKeysTypes[modelsTree[model][attribute].model]) {
             if (modelsPrimaryKeysTypes[modelsTree[model][attribute].model] === "number") {
