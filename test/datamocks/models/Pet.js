@@ -20,7 +20,7 @@ module.exports = {
     },
 
     home: {
-      model: 'home'
+      model: 'Home'
     }
   }
 };

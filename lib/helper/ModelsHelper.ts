@@ -142,11 +142,11 @@ export class ModelsHelper {
           // type will be like primaryKey in related model or string
           let modelPrimaryKeyType = globalPrimaryKeyType;
 
-          if (modelsPrimaryKeysTypes[modelsTree[model][attribute].model]) {
-            if (modelsPrimaryKeysTypes[modelsTree[model][attribute].model] === "number") {
+          if (modelsPrimaryKeysTypes[modelsTree[model][attribute].model.toLowerCase()]) {
+            if (modelsPrimaryKeysTypes[modelsTree[model][attribute].model.toLowerCase()] === "number") {
               modelPrimaryKeyType = "bigint";
             } else {
-              modelPrimaryKeyType = modelsPrimaryKeysTypes[modelsTree[model][attribute].model];
+              modelPrimaryKeyType = modelsPrimaryKeysTypes[modelsTree[model][attribute].model.toLowerCase()];
             }
           }
 

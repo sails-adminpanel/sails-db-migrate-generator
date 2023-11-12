@@ -49,7 +49,7 @@
     },
 
     "home": {
-      "model": "home"
+      "model": "Home"
     }
   },
   "user": {
@@ -74,12 +74,12 @@
     },
 
     "pets": {
-      "collection": "pet",
+      "collection": "Pet",
       "via": "owners"
     },
 
     "home": {
-      "model": "home"
+      "model": "Home"
     }
   }
 }

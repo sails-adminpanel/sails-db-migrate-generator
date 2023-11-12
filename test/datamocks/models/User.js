@@ -21,12 +21,12 @@ module.exports = {
 
     // Add a reference to Pet
     pets: {
-      collection: 'pet',
+      collection: 'Pet',
       via: 'owners'
     },
 
     home: {
-      model: 'home'
+      model: 'Home'
     }
   },
   primaryKey: "id"
