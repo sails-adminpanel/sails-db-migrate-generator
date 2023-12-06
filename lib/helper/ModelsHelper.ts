@@ -26,6 +26,10 @@ export class ModelsHelper {
         }
         // add primary key to attribute options
         if (model.primaryKey) {
+          if (!model.attributes[model.primaryKey]) {
+            throw `${model.primaryKey} was marked as primaryKey, but it is not presented in ${modelFile}`
+          }
+
           model.attributes[model.primaryKey].primaryKey = true;
           modelsPrimaryKeysTypes[path.basename(modelFile, path.extname(modelFile)).toLowerCase()] = model.attributes[model.primaryKey].type;
         }
