@@ -92,3 +92,6 @@ The [Sails framework](https://sailsjs.com) is free and open-source under the [MI
 
 
 ![image_squidhome@2x.png](http://i.imgur.com/RIvu9.png)
+
+#### Remember
+Strictly follow Sails.js documentation when creating models and connections between them
