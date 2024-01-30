@@ -74,7 +74,7 @@ export class ModelsHelper {
           if (attribute === 'createdAt' || attribute === 'updatedAt') {
             modelsTree[model][attribute].type = 'bigint';
           } else if (modelsTree[model][attribute].autoIncrement) {
-            modelsTree[model][attribute].type = 'int'
+            modelsTree[model][attribute].type = 'serial'
           } else {
             modelsTree[model][attribute].type = 'real';
           }
@@ -139,7 +139,7 @@ export class ModelsHelper {
             if (associationType === "many-to-many") {
               // create intermediate table for many-to-many association
               intermediateTables[`${model}_${attribute}__${attributeCollection}_${attributeVia}`] = {
-                id: {type: 'int', autoIncrement: true},
+                id: {type: 'serial', autoIncrement: true, primaryKey: true},
                 [`${model}_${attribute}`]: {type: modelPrimaryKeyType},
                 [`${attributeCollection}_${attributeVia}`]: {type: collectionPrimaryKeyType}
               }
