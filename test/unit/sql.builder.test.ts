@@ -98,7 +98,7 @@ describe('SQL builder test', function () {
 
     expect(migrationProperName).to.be.true;
     expect(migrationError).to.be.false;
-    expect(migrationBuilder.getMigrationsBuild()).to.equal("(cb) => db.changeColumn('home', 'id', {\"type\":\"int\",\"autoIncrement\":true,\"primaryKey\":true}, cb),\n" +
+    expect(migrationBuilder.getMigrationsBuild()).to.equal("(cb) => db.changeColumn('home', 'id', {\"type\":\"serial\",\"autoIncrement\":true,\"primaryKey\":true}, cb),\n" +
       "(cb) => db.addColumn('home', 'location', {\"type\":\"json\"}, cb),\n" +
       "(cb) => db.addColumn('home', 'livingSpace', {\"type\":\"real\"}, cb),\n" +
       "(cb) => db.addColumn('home', 'owner', {\"type\":\"text\"}, cb),\n" +
@@ -140,7 +140,7 @@ describe('SQL builder test', function () {
       "        \"type\": \"text\"\n" +
       "    },\n" +
       "    \"age\": {\n" +
-      "        \"type\": \"int\",\n" +
+      "        \"type\": \"serial\",\n" +
       "        \"autoIncrement\": true\n" +
       "    },\n" +
       "    \"email\": {\n" +
@@ -162,8 +162,9 @@ describe('SQL builder test', function () {
       "(cb) => db.createTable('pet_owners__user_pets', {\n" +
       "    columns: {\n" +
       "    \"id\": {\n" +
-      "        \"type\": \"int\",\n" +
-      "        \"autoIncrement\": true\n" +
+      "        \"type\": \"serial\",\n" +
+      "        \"autoIncrement\": true,\n" +
+      "        \"primaryKey\": true\n" +
       "    },\n" +
       "    \"pet_owners\": {\n" +
       "        \"type\": \"int\"\n" +
