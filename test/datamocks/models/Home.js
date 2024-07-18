@@ -32,6 +32,15 @@ module.exports = {
 
     owner: {
       model: 'user'
+    },
+
+    dependents: {
+      collection: "home",
+      via: "dependencies"
+    },
+    dependencies: {
+      collection: "home",
+      via: "dependents"
     }
   },
   primaryKey: 'id'

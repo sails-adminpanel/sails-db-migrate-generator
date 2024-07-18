@@ -29,6 +29,16 @@
 
     "owner": {
       "model": "user"
+    },
+
+    "dependents": {
+      "collection": "home",
+      "via": "dependencies"
+    },
+
+    "dependencies": {
+      "collection": "home",
+      "via": "dependents"
     }
   },
   "pet": {

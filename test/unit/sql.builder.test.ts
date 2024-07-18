@@ -159,6 +159,22 @@ describe('SQL builder test', function () {
       "},\n" +
       "    ifNotExists: true\n" +
       "  }, cb),\n" +
+      "(cb) => db.createTable('home_dependencies__home_dependents', {\n" +
+      "    columns: {\n" +
+      "    \"id\": {\n" +
+      "        \"type\": \"serial\",\n" +
+      "        \"autoIncrement\": true,\n" +
+      "        \"primaryKey\": true\n" +
+      "    },\n" +
+      "    \"home_dependencies\": {\n" +
+      "        \"type\": \"bigint\"\n" +
+      "    },\n" +
+      "    \"home_dependents\": {\n" +
+      "        \"type\": \"bigint\"\n" +
+      "    }\n" +
+      "},\n" +
+      "    ifNotExists: true\n" +
+      "  }, cb),\n" +
       "(cb) => db.createTable('pet_owners__user_pets', {\n" +
       "    columns: {\n" +
       "    \"id\": {\n" +
